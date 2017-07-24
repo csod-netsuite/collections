@@ -21,7 +21,7 @@
   <defaultvalue></defaultvalue>
   <description></description>
   <displayheight></displayheight>
-  <displaytype>NORMAL</displaytype>
+  <displaytype>LOCKED</displaytype>
   <displaywidth></displaywidth>
   <dynamicdefault></dynamicdefault>
   <encryptatrest>F</encryptatrest>
@@ -48,6 +48,6 @@
   <sourcefilterby></sourcefilterby>
   <sourcefrom></sourcefrom>
   <sourcelist></sourcelist>
-  <storevalue>F</storevalue>
+  <storevalue>T</storevalue>
   <subtab></subtab>
 </transactionbodycustomfield>
