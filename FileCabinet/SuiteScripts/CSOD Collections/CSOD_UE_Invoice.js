@@ -3,11 +3,11 @@
  * @NScriptType UserEventScript
  * @NModuleScope SameAccount
  */
-define(['N/record'],
+define(['N/record', './Libraries/CSOD_UE_Invoice_Utils'],
 /**
  * @param {record} record
  */
-function(record) {
+function(record, utils) {
    
     /**
      * Function definition to be triggered before record is loaded.
@@ -32,15 +32,12 @@ function(record) {
      * @param {string} scriptContext.type - Trigger type
      * @Since 2015.2
      */
-    function beforeSubmit(scriptContext) {
-    	var record = scriptContext.newRecord;
-    	var origDueDate = record.getValue({ fieldId: 'duedate' });
-    	var invoiceSentDate = record.getValue({ fieldId: 'custbody_record_emailed_date' });
+    function beforeSubmit(context) {
     	
-    	log.debug({
-    		title: 'Date fields validation',
-    		details: 'Due Date : ' + origDueDate + ', ' + 'Invoice Sent Date: ' + invoiceSentDate
-    	});
+    	if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
+    		utils.updateAdjustDueDate(context);
+    	}
+
     }
 
     /**
