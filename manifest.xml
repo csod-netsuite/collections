@@ -1,0 +1,14 @@
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>Collections</projectname>
+  <frameworkversion>1.0</frameworkversion>
+  <dependencies>
+    <features>
+      <feature required="false">PAYABLES</feature>
+      <feature required="false">RECEIVABLES</feature>
+      <feature required="false">EXPREPORTS</feature>
+      <feature required="false">ACCOUNTING</feature>
+      <feature required="true">SERVERSIDESCRIPTING</feature>
+      <feature required="false">CRM</feature>
+    </features>
+  </dependencies>
+</manifest>
