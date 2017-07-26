@@ -33,10 +33,10 @@ function(record, utils) {
      * @Since 2015.2
      */
     function beforeSubmit(context) {
-    	log.debug(context.type);
+    	
     	if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
     		// set adjust due date
-    		log.debug(context.type);
+    		log.debug(context.type)
     		utils.updateAdjustDueDate(context);
     	}
 

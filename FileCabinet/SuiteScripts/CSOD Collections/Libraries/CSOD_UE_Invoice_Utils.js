@@ -45,11 +45,19 @@ function(moment, format) {
 	// if X > -15 then custbody_record_emailed_date + 14 days
 	
 	function updateAdjustDueDate(context) {
-		var record = context.newRecord;
-		var origDueDate = record.getValue({ fieldId: 'duedate' });
-		var invoiceSentDate = record.getValue({ fieldId: 'custbody_record_emailed_date' });
 		
-		if(invoiceSentDate && origDueDate) {
+		log.audit({
+			title: 'updateAdjustDueDate called',
+			details: ''
+		});
+		
+		var newRec = context.newRecord;
+		var oldRec = context.oldRecord;
+		var origDueDate = oldRec.getValue({ fieldId: 'duedate' }) || newRec.getValue({ fieldId: 'duedate' });
+		var invoiceSentDate = oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || newRec.getValue({ fieldId: 'custbody_record_emailed_date' });
+		var oldAdjDueDate = oldRec.getValue({ fieldId: 'custbody_adjusted_due_date' });
+		
+		if((invoiceSentDate && origDueDate) && !oldAdjDueDate) {
 			var dateDiff = new CalcDate(invoiceSentDate).getMomentDate().getDiff(origDueDate);
 			
 			var adjustedDueDate;
@@ -65,12 +73,7 @@ function(moment, format) {
 				details: 'Due Date : ' + origDueDate + ', ' + 'Invoice Sent Date: ' + invoiceSentDate + ', Date Diff: ' + dateDiff
 			});
 			
-			log.debug({
-				title: 'Date to write',
-				details: adjustedDueDate + ', Type : ' + typeof adjustedDueDate + ', ' + new Date(adjustedDueDate)
-			});
-			
-			record.setValue({
+			newRec.setValue({
 				fieldId: 'custbody_adjusted_due_date',
 				value: new Date(adjustedDueDate),
 				ignoreFieldChange : true

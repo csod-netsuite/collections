@@ -1,0 +1,20 @@
+<mapreducescript scriptid="customscript_csod_mr_collection_state">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>CSOD MR Collection Change Future State</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_csod_mr_collection_state">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueids></queueids>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>NOTSCHEDULED</status>
+      <useallqueues>T</useallqueues>
+      <yieldaftermins>60</yieldaftermins>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
