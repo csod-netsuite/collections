@@ -1,0 +1,24 @@
+<customlist scriptid="customlist_csod_coll_status_list">
+  <description></description>
+  <isinactive>F</isinactive>
+  <isordered>T</isordered>
+  <name>CSOD Collection Status List</name>
+  <customvalues>
+    <customvalue scriptid="val_6575481_642845_sb2_484">
+      <isinactive>F</isinactive>
+      <value>Standard - Under 1M$</value>
+    </customvalue>
+    <customvalue scriptid="val_6575482_642845_sb2_709">
+      <isinactive>F</isinactive>
+      <value>Over 1M$</value>
+    </customvalue>
+    <customvalue scriptid="val_6575483_642845_sb2_679">
+      <isinactive>F</isinactive>
+      <value>Past Due Less Than 10% ($50K)</value>
+    </customvalue>
+    <customvalue scriptid="val_6575484_642845_sb2_963">
+      <isinactive>F</isinactive>
+      <value>GE and CFS</value>
+    </customvalue>
+  </customvalues>
+</customlist>

@@ -1,0 +1,67 @@
+2017-07-27 11:24:17,812 - Option "-p" must be specified.
+com.netsuite.ide.exception.CliException: Option "-p" must be specified.
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:437)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-07-27 11:24:29,672 - Option "-p" must have a value.
+com.netsuite.ide.exception.CliException: Option "-p" must have a value.
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:390)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-07-27 11:31:09,681 - You have entered an invalid email address or password. Please try again.
+java.lang.Exception: You have entered an invalid email address or password. Please try again.
+	at com.netsuite.ide.core.http.GetRolesHttpClient.getRoles(GetRolesHttpClient.java:55)
+	at com.netsuite.suiteapp.Account.retrieveDataCenterUrls(Account.java:172)
+	at com.netsuite.tools.SDF.getAccount(SDF.java:140)
+	at com.netsuite.tools.SDF.execute(SDF.java:270)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-07-27 11:32:32,817 - *** ERROR ***
+2017-07-27 11:32:32,818 - 
+2017-07-27 11:32:32,818 - Validation failed.
+2017-07-27 11:32:32,818 - 
+2017-07-27 11:32:32,818 - An error occurred during manifest validation.
+2017-07-27 11:32:32,818 - Details: The manifest file is missing.
+2017-07-27 11:32:32,818 - File: manifest.xml
+2017-07-27 11:35:01,904 - *** ERROR ***
+2017-07-27 11:35:01,904 - 
+2017-07-27 11:35:01,905 - Validation failed.
+2017-07-27 11:35:01,905 - 
+2017-07-27 11:35:01,905 - An error occurred during manifest validation.
+2017-07-27 11:35:01,905 - Details: The manifest file is missing.
+2017-07-27 11:35:01,905 - File: manifest.xml
+2017-07-27 12:21:11,000 - /Users/Chan/.sdf (Is a directory)
+java.io.FileNotFoundException: /Users/Chan/.sdf (Is a directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at com.netsuite.ide.util.FileUtil.loadProperties(FileUtil.java:443)
+	at com.netsuite.suiteapp.Account.load(Account.java:137)
+	at com.netsuite.tools.SDF.getAccount(SDF.java:127)
+	at com.netsuite.tools.SDF.execute(SDF.java:270)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)

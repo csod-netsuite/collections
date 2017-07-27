@@ -29,7 +29,7 @@ function(search) {
     		      "AND", 
     		      ["custbody_adjusted_due_date","isnotempty",""], 
     		      "AND", 
-    		      ["status","anyof","CustInvc:A"]
+    		      ["status","anyof","CustInvc:A", "CustInvc:D"]
     		   ],
     		   columns: [
     		      "internalid"
@@ -48,7 +48,7 @@ function(search) {
     function map(context) {
     	log.debug({
             title: "Search Result in map",
-            details: JSON.stringify(context.value)
+            details: context.value
         });
     }
 

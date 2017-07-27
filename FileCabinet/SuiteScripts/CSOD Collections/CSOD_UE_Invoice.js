@@ -8,7 +8,7 @@ define(['N/record', './Libraries/CSOD_UE_Invoice_Utils'],
  * @param {record} record
  */
 function(record, utils) {
-   
+
     /**
      * Function definition to be triggered before record is loaded.
      *
@@ -38,6 +38,7 @@ function(record, utils) {
     		// set adjust due date
     		log.debug(context.type)
     		utils.updateAdjustDueDate(context);
+
     	}
 
     }
