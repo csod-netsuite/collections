@@ -3,11 +3,11 @@
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
  */
-define(['N/search'],
+define(['N/search', 'N/record'],
 /**
  * @param {search} search
  */
-function(search) {
+function(search, record) {
    
     /**
      * Marks the beginning of the Map/Reduce process and generates input data.
@@ -35,7 +35,7 @@ function(search) {
     		      "internalid"
     		   ]
     		});
-    		var searchResultCount = transactionSearchObj.runPaged().count;
+
     		return transactionSearchObj
     }
 
@@ -46,38 +46,58 @@ function(search) {
      * @since 2015.1
      */
     function map(context) {
-    	log.debug({
-            title: "Search Result in map",
-            details: context.value
+        log.debug({
+            title: 'In Map. Check context',
+            details: context.key + ', Internal ID: ' + context.value.values.internalid.value
         });
-    }
 
-    /**
-     * Executes when the reduce entry point is triggered and applies to each group.
-     *
-     * @param {ReduceSummary} context - Data collection containing the groups to process through the reduce stage
-     * @since 2015.1
-     */
-    function reduce(context) {
+        var lookupObj = search.lookupFields({
+			type: search.Type.INVOICE,
+			id: context.key,
+			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'total']
+		});
 
-    }
+        var subdiaryId = lookupObj.subsidiary[0].value;
+        var amountTotal = +lookupObj.total;
+        var amountPaid = +lookupObj.amountPaid;
+		var amountRemaining = +lookupObj.amountremaining;
 
+		var collectionState = '';
 
-    /**
-     * Executes when the summarize entry point is triggered and applies to the result set.
-     *
-     * @param {Summary} summary - Holds statistics regarding the execution of a map/reduce script
-     * @since 2015.1
-     */
-    function summarize(summary) {
+		if(subdiaryId == '15' || subdiaryId == '18') {
+            collectionState = '4';
+		} else if (amountPaid > 0 && amountTotal < 50000) {
+            collectionState = '3';
+		} else if (amountTotal > 1000000) {
+			collectionState = '2';
+		} else if (amountTotal <= 1000000) {
+			collectionState = '1';
+		} else {
+			log.audit({
+				title: 'Failed to classify Collection State',
+				details: 'Collection State cannot be classified'
+			});
+		}
+
+		if(collectionState !== '') {
+			record.submitFields({
+				type: record.Type.INVOICE,
+				id: context.key,
+				values: {
+                    custbody_csod_coll_state: collectionState
+				},
+				options: {
+					enableSourcing: false,
+					ignoreMandatoryFields: true
+				}
+			});
+		}
 
     }
 
     return {
         getInputData: getInputData,
         map: map
-        //reduce: reduce,
-        //summarize: summarize
     };
     
 });
