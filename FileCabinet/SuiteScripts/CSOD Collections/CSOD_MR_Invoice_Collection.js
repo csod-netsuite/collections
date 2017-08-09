@@ -48,7 +48,7 @@ function(search, record) {
     function map(context) {
         log.debug({
             title: 'In Map. Check context',
-            details: context.key + ', Internal ID: ' + context.value.values.internalid.value
+            details: context.key
         });
 
         var lookupObj = search.lookupFields({
@@ -63,6 +63,11 @@ function(search, record) {
 		var amountRemaining = +lookupObj.amountremaining;
 
 		var collectionState = '';
+
+		log.debug({
+			title: 'Lookup results',
+			details: subdiaryId + ', ' + amountTotal + ', ' + amountRemaining
+		});
 
 		if(subdiaryId == '15' || subdiaryId == '18') {
             collectionState = '4';
@@ -80,7 +85,7 @@ function(search, record) {
 		}
 
 		if(collectionState !== '') {
-			record.submitFields({
+			var submittedId = record.submitFields({
 				type: record.Type.INVOICE,
 				id: context.key,
 				values: {
@@ -91,8 +96,9 @@ function(search, record) {
 					ignoreMandatoryFields: true
 				}
 			});
-		}
 
+			log.debug(submittedId);
+		}
     }
 
     return {

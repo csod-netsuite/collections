@@ -3,9 +3,9 @@
  * @NModuleScope SameAccount
  */
 
-define(['./moment', 'N/format'],
+define(['./moment', 'N/format', 'N/record'],
 
-function(moment, format) {
+function(moment, format, record) {
 	
 	var exports = {};
 	
@@ -82,9 +82,39 @@ function(moment, format) {
 
 	}
 	
+	function addGracePeriod(rec, gracePeriod) {
+		var currDueDate = rec.getValue({fieldId: 'custbody_adjusted_due_date'});
 
+		var dateGracePeriodAdded = getFormattedDate(moment(currDueDate).add(gracePeriod, 'days'));
+
+        log.debug({
+            title: 'addGracePeriod',
+            details: 'currDueDate : ' + currDueDate + ', dateGracePeriodAdded : ' + dateGracePeriodAdded
+        });
+
+        // set new custbody_adjusted_due_date and uncheck custbody_csod_add_grace_period
+
+        var submittedId = record.submitFields({
+           type: rec.type,
+           id: rec.id,
+           values: {
+               custbody_csod_add_grace_period: false,
+               custbody_adjusted_due_date: new Date(dateGracePeriodAdded)
+           },
+           options: {
+               enableSourcing: false,
+               ignoreMandatoryFields: true
+           }
+        });
+
+        log.debug({
+            title: 'Record Updated',
+            details: 'ID : ' + submittedId
+        });
+	}
 
 	exports.updateAdjustDueDate = updateAdjustDueDate;
+	exports.addGracePeriod = addGracePeriod;
     return exports;
     
 });

@@ -1,65 +1,51 @@
 /**
  * @NApiVersion 2.x
  * @NScriptType UserEventScript
- * @NModuleScope SameAccount
  */
-define(['N/record', './Libraries/CSOD_UE_Invoice_Utils'],
-/**
- * @param {record} record
- */
-function(record, utils) {
 
-    /**
-     * Function definition to be triggered before record is loaded.
-     *
-     * @param {Object} scriptContext
-     * @param {Record} scriptContext.newRecord - New record
-     * @param {string} scriptContext.type - Trigger type
-     * @param {Form} scriptContext.form - Current form
-     * @Since 2015.2
-     */
-    function beforeLoad(scriptContext) {
-    	
-    	
-    }
+define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(record, runtime, utils) {
 
-    /**
-     * Function definition to be triggered before record is loaded.
-     *
-     * @param {Object} scriptContext
-     * @param {Record} scriptContext.newRecord - New record
-     * @param {Record} scriptContext.oldRecord - Old record
-     * @param {string} scriptContext.type - Trigger type
-     * @Since 2015.2
-     */
-    function beforeSubmit(context) {
+    var exports = {};
+
+    var beforeLoad = function(context){
+
+    };
+
+    var afterSubmit = function(context) {
+
+        if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
+
+            var newRec = context.newRecord;
+
+            // if Add Grace Period is checked then invoke addGracePeriod function
+            if(newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && newRec.getValue({ fieldId: 'custbody_adjusted_due_date' })) {
+                var defaultGracePeriod = runtime.getCurrentScript().getParameter({name: 'custscript_csod_grace_period_default'});
+
+                log.debug({
+                    title: 'Grace Period',
+                    details: defaultGracePeriod
+                });
+
+                utils.addGracePeriod(newRec, defaultGracePeriod);
+            }
+        }
+    };
+
+     var beforeSubmit = function(context) {
     	
     	if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
     		// set adjust due date
-    		log.debug(context.type)
+    		log.debug(context.type);
     		utils.updateAdjustDueDate(context);
 
     	}
 
-    }
-
-    /**
-     * Function definition to be triggered before record is loaded.
-     *
-     * @param {Object} scriptContext
-     * @param {Record} scriptContext.newRecord - New record
-     * @param {Record} scriptContext.oldRecord - Old record
-     * @param {string} scriptContext.type - Trigger type
-     * @Since 2015.2
-     */
-    function afterSubmit(scriptContext) {
-
-    }
-
-    return {
-        //beforeLoad: beforeLoad,
-        beforeSubmit: beforeSubmit
-        //afterSubmit: afterSubmit
     };
-    
+
+
+    exports.beforeLoad = beforeLoad;
+    exports.beforeSubmit = beforeSubmit;
+    exports.afterSubmit = afterSubmit;
+
+    return exports;
 });

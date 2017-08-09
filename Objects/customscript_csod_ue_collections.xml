@@ -1,0 +1,57 @@
+<usereventscript scriptid="customscript_csod_ue_collections">
+  <aftersubmitfunction></aftersubmitfunction>
+  <beforeloadfunction></beforeloadfunction>
+  <beforesubmitfunction></beforesubmitfunction>
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>CSOD UE Invoice</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_UE_Invoice.js]</scriptfile>
+  <scriptcustomfields>
+    <scriptcustomfield scriptid="custscript_csod_grace_period_default">
+      <accesslevel>2</accesslevel>
+      <applyformatting>T</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>INTEGER</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Grace Period Default Days</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete></onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype></selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+  </scriptcustomfields>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_csod_ue_collections">
+      <allemployees>T</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <custscript_csod_grace_period_default>15</custscript_csod_grace_period_default>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <recordtype>INVOICE</recordtype>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>RELEASED</status>
+    </scriptdeployment>
+  </scriptdeployments>
+</usereventscript>
