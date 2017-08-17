@@ -1,6 +1,6 @@
-<transactionbodycustomfield scriptid="custbody_csod_add_grace_period">
+<transactionbodycustomfield scriptid="custbody_csod_grace_period_days_onhold">
   <accesslevel>2</accesslevel>
-  <applyformatting>F</applyformatting>
+  <applyformatting>T</applyformatting>
   <bodycustomerpayment>F</bodycustomerpayment>
   <bodydeposit>F</bodydeposit>
   <bodyexpensereport>F</bodyexpensereport>
@@ -18,21 +18,21 @@
   <checkspelling>F</checkspelling>
   <defaultchecked>F</defaultchecked>
   <defaultselection></defaultselection>
-  <defaultvalue></defaultvalue>
+  <defaultvalue>0</defaultvalue>
   <description></description>
   <displayheight></displayheight>
-  <displaytype>NORMAL</displaytype>
+  <displaytype>LOCKED</displaytype>
   <displaywidth></displaywidth>
   <dynamicdefault></dynamicdefault>
   <encryptatrest>F</encryptatrest>
-  <fieldtype>CHECKBOX</fieldtype>
+  <fieldtype>INTEGER</fieldtype>
   <fldsizelabel></fldsizelabel>
   <globalsearch>F</globalsearch>
-  <help>Check this box if the invoice is on hold for AR collections</help>
+  <help></help>
   <isformula>F</isformula>
   <ismandatory>F</ismandatory>
   <isparent>F</isparent>
-  <label>Collections Hold</label>
+  <label>Grace Period Days on Hold</label>
   <linktext></linktext>
   <maxlength></maxlength>
   <maxvalue></maxvalue>
@@ -49,5 +49,5 @@
   <sourcefrom></sourcefrom>
   <sourcelist></sourcelist>
   <storevalue>T</storevalue>
-  <subtab>TRANSACTIONMAIN</subtab>
+  <subtab></subtab>
 </transactionbodycustomfield>

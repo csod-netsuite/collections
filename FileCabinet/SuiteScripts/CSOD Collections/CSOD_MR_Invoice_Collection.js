@@ -54,13 +54,22 @@ function(search, record) {
         var lookupObj = search.lookupFields({
 			type: search.Type.INVOICE,
 			id: context.key,
-			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'total']
+			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity']
 		});
 
         var subdiaryId = lookupObj.subsidiary[0].value;
-        var amountTotal = +lookupObj.total;
+        var customerId = +lookupObj.entity[0].value;
         var amountPaid = +lookupObj.amountPaid;
 		var amountRemaining = +lookupObj.amountremaining;
+
+		var baseLineObj = search.lookupFields({
+			type: search.Type.CUSTOMER,
+			id: customerId,
+			columns: ['custentity_10_pct_baseline', 'custentityrenewal_baseline']
+		});
+
+		var baseLine10Pct = +baseLineObj.custentity_10_pct_baseline;
+		var baseLine = +baseLineObj.custentityrenewal_baseline;
 
 		var collectionState = '';
 
@@ -71,11 +80,11 @@ function(search, record) {
 
 		if(subdiaryId == '15' || subdiaryId == '18') {
             collectionState = '4';
-		} else if (amountPaid > 0 && amountTotal < 50000) {
+		} else if (amountPaid > 0 && amountRemaining < baseLine10Pct && amountRemaining < 50000) {
             collectionState = '3';
-		} else if (amountTotal > 1000000) {
+		} else if (baseLine > 1000000) {
 			collectionState = '2';
-		} else if (amountTotal <= 1000000) {
+		} else if (baseLine <= 1000000) {
 			collectionState = '1';
 		} else {
 			log.audit({

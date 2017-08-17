@@ -37,6 +37,28 @@ function(moment, format, record) {
 		});
 		
 	}
+
+
+    function dateTimeToString(dateTime) {
+        return format.format({
+            value: dateTime,
+            type: format.Type.DATETIME
+        });
+    }
+
+    function stringToDateTimeToday(dateTime) {
+
+	    var formattedDate = format.parse({
+            value: new Date(),
+            type: format.Type.DATETIME,
+            timezone: format.Timezone.AMERICA_LOS_ANGELES
+        });
+
+        return format.format({
+            value: formattedDate,
+            type: format.Type.DATETIME
+        });
+    }
 	
 	
 	// function to update custbody_adjusted_due_date
@@ -81,6 +103,57 @@ function(moment, format, record) {
 		}
 
 	}
+
+	function submitRecord(rec, valueObj) {
+        record.submitFields({
+            type: rec.type,
+            id: rec.id,
+            values: valueObj,
+            options: {
+                enableSourcing: false,
+                ignoreMandatoryFields : true
+            }
+        });
+    }
+
+
+	function createTimeStamp(oldRec, newRec) {
+        if(!oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'})) {
+            // Grace Period is checked
+            // write timestamp to custbody_csod_grace_period_startdate
+
+            var dateToWrite = stringToDateTimeToday();
+            log.debug(dateToWrite);
+            submitRecord(newRec, {custbody_csod_grace_period_startdate : dateToWrite});
+
+        } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && !newRec.getValue({fieldId: 'custbody_csod_add_grace_period'})) {
+            // Grace Period is unchecked
+            // write timestampt to custbody_csod_grace_period_enddate
+            // Calculate how many grace periods were given in days
+
+            var gracePeriodStartDate = moment(newRec.getValue({
+                fieldId: 'custbody_csod_grace_period_startdate'
+            }));
+
+            var gracePeriodEndDate = moment(new Date());
+
+            var daysWereOnHold = +oldRec.getValue({fieldId: 'custbody_csod_grace_period_days_onhold'}) || 0;
+            var gracePeriodInDays = +gracePeriodEndDate.diff(gracePeriodStartDate, 'days');
+
+            log.debug({
+                title: 'Checking values in CreateTimeStamp',
+                details: 'daysWereOnHold : ' + daysWereOnHold + ', gracePeriodInDays : ' + gracePeriodInDays
+            });
+
+            var valueObj = {
+                custbody_csod_grace_period_enddate : stringToDateTimeToday(),
+                custbody_csod_grace_period_days_onhold: gracePeriodInDays + daysWereOnHold
+            };
+
+            submitRecord(newRec, valueObj);
+
+        }
+	};
 	
 	function addGracePeriod(rec, gracePeriod) {
 		var currDueDate = rec.getValue({fieldId: 'custbody_adjusted_due_date'});
@@ -98,7 +171,6 @@ function(moment, format, record) {
            type: rec.type,
            id: rec.id,
            values: {
-               custbody_csod_add_grace_period: false,
                custbody_adjusted_due_date: new Date(dateGracePeriodAdded)
            },
            options: {
@@ -114,7 +186,7 @@ function(moment, format, record) {
 	}
 
 	exports.updateAdjustDueDate = updateAdjustDueDate;
-	exports.addGracePeriod = addGracePeriod;
+	exports.createTimeStamp = createTimeStamp;
     return exports;
     
 });

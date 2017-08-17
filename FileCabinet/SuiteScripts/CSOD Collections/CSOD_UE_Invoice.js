@@ -3,7 +3,7 @@
  * @NScriptType UserEventScript
  */
 
-define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(record, runtime, utils) {
+define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(record, runtime, csod_lib) {
 
     var exports = {};
 
@@ -13,21 +13,14 @@ define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(
 
     var afterSubmit = function(context) {
 
-        if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
+        if(context.type == context.UserEventType.EDIT) {
 
             var newRec = context.newRecord;
+            var oldRec = context.oldRecord;
 
-            // if Add Grace Period is checked then invoke addGracePeriod function
-            if(newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && newRec.getValue({ fieldId: 'custbody_adjusted_due_date' })) {
-                var defaultGracePeriod = runtime.getCurrentScript().getParameter({name: 'custscript_csod_grace_period_default'});
+            // Grace Period Timestamp
+            csod_lib.createTimeStamp(oldRec ,newRec);
 
-                log.debug({
-                    title: 'Grace Period',
-                    details: defaultGracePeriod
-                });
-
-                utils.addGracePeriod(newRec, defaultGracePeriod);
-            }
         }
     };
 
@@ -36,7 +29,7 @@ define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(
     	if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
     		// set adjust due date
     		log.debug(context.type);
-    		utils.updateAdjustDueDate(context);
+            csod_lib.updateAdjustDueDate(context);
 
     	}
 

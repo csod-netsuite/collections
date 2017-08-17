@@ -1,0 +1,26 @@
+<suitelet scriptid="customscript_csod_sl_multi_add_to_queue">
+  <defaultfunction>onRequest</defaultfunction>
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>CSOD SL Collections Multi Add to Queue</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_SL_Mass_Add_To_Queue.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_csod_sl_multi_add_to_queue">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>F</allroles>
+      <audslctrole></audslctrole>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole></runasrole>
+      <status>RELEASED</status>
+      <title>CSOD SL Collections Multi Add to Queue</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>
