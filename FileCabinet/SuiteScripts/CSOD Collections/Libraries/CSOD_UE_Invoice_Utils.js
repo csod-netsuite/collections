@@ -5,6 +5,7 @@
 
 define(['./moment', 'N/format', 'N/record'],
 
+
 function(moment, format, record) {
 	
 	var exports = {};
@@ -78,7 +79,8 @@ function(moment, format, record) {
 		var origDueDate = oldRec.getValue({ fieldId: 'duedate' }) || newRec.getValue({ fieldId: 'duedate' });
 		var invoiceSentDate = oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || newRec.getValue({ fieldId: 'custbody_record_emailed_date' });
 		var oldAdjDueDate = oldRec.getValue({ fieldId: 'custbody_adjusted_due_date' });
-		
+
+        // Only populate if Adjusted New Date is not populated
 		if((invoiceSentDate && origDueDate) && !oldAdjDueDate) {
 			var dateDiff = new CalcDate(invoiceSentDate).getMomentDate().getDiff(origDueDate);
 			
@@ -100,6 +102,7 @@ function(moment, format, record) {
 				value: new Date(adjustedDueDate),
 				ignoreFieldChange : true
 			});
+
 		}
 
 	}

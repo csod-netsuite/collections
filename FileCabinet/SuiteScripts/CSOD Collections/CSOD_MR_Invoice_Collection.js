@@ -57,9 +57,9 @@ function(search, record) {
 			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity']
 		});
 
-        var subdiaryId = lookupObj.subsidiary[0].value;
+        var subsidiaryId = lookupObj.subsidiary[0].value;
         var customerId = +lookupObj.entity[0].value;
-        var amountPaid = +lookupObj.amountPaid;
+        var amountPaid = +lookupObj.amountpaid;
 		var amountRemaining = +lookupObj.amountremaining;
 
 		var baseLineObj = search.lookupFields({
@@ -75,10 +75,10 @@ function(search, record) {
 
 		log.debug({
 			title: 'Lookup results',
-			details: subdiaryId + ', ' + amountTotal + ', ' + amountRemaining
+			details: 'subsidiaryId: ' + subsidiaryId + ', amountPaid: ' + amountPaid + ', amountRemaining: ' + amountRemaining
 		});
 
-		if(subdiaryId == '15' || subdiaryId == '18') {
+		if(subsidiaryId == '15' || subsidiaryId == '18') {
             collectionState = '4';
 		} else if (amountPaid > 0 && amountRemaining < baseLine10Pct && amountRemaining < 50000) {
             collectionState = '3';

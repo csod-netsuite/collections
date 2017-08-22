@@ -2,9 +2,8 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
     function (ui, runtime, search, record, redirect, url) {
 
     /**
-     * Module Description...
-     *
-     * @exports XXX
+     * @Description Form that can add multiple invoices to queue
+     * for emailing the actual invoice to customers
      *
      * @copyright 2017 Cornerstone OnDemand
      * @author Chan - cyi@csod.com
@@ -14,24 +13,6 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
      * @NScriptType Suitelet
      */
     var exports = {};
-
-    /**
-     * <code>onRequest</code> event handler
-     *
-     * @governance XXX
-     *
-     * @param context
-     *        {Object}
-     * @param context.request
-     *        {ServerRequest} The incoming request object
-     * @param context.response
-     *        {ServerResponse} The outgoing response object
-     *
-     * @return {void}
-     *
-     * @static
-     * @function onRequest
-     */
 
     // 'custbody_email_delivery_status', '2', Will put into queue
     function onRequest(context) {
@@ -281,6 +262,8 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
                 ["custbody_email_delivery_status","anyof","1"],
                 "AND",
                 ["custbody_do_not_email","is","F"],
+                "AND",
+                ["custbody_csod_add_grace_period", "is", "F"],
                 "AND",
                 ["status","noneof","CustInvc:B","CustInvc:V"]
             ],
