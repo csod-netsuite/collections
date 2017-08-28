@@ -3,11 +3,11 @@
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
  */
-define(['N/search', 'N/record'],
+define(['N/search', 'N/record', 'N/error', './Libraries/CSOD_MR_Collection_Libs.js'],
 /**
  * @param {search} search
  */
-function(search, record) {
+function(search, record, error, csod) {
    
     /**
      * Marks the beginning of the Map/Reduce process and generates input data.
@@ -110,9 +110,14 @@ function(search, record) {
 		}
     }
 
+    function summarize(summary) {
+        csod.handleErrorIfAny(summary);
+	}
+
     return {
         getInputData: getInputData,
-        map: map
+        map: map,
+		summarize: summarize
     };
     
 });

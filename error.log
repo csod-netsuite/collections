@@ -217,3 +217,68 @@ java.lang.Exception: You have entered an invalid email address or password. Plea
 	at java.lang.reflect.Method.invoke(Method.java:498)
 	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
 	at java.lang.Thread.run(Thread.java:745)
+2017-08-24 15:21:03,947 - You have entered an invalid email address or password. Please try again.
+java.lang.Exception: You have entered an invalid email address or password. Please try again.
+	at com.netsuite.ide.core.http.GetRolesHttpClient.getRoles(GetRolesHttpClient.java:55)
+	at com.netsuite.suiteapp.Account.retrieveDataCenterUrls(Account.java:172)
+	at com.netsuite.tools.SDF.getAccount(SDF.java:140)
+	at com.netsuite.tools.SDF.execute(SDF.java:270)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-08-24 15:21:16,282 - You have entered an invalid email address or password. Please try again.
+java.lang.Exception: You have entered an invalid email address or password. Please try again.
+	at com.netsuite.ide.core.http.GetRolesHttpClient.getRoles(GetRolesHttpClient.java:55)
+	at com.netsuite.suiteapp.Account.retrieveDataCenterUrls(Account.java:172)
+	at com.netsuite.tools.SDF.getAccount(SDF.java:140)
+	at com.netsuite.tools.SDF.execute(SDF.java:270)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-08-25 13:44:32,537 - Option "-scriptid" must have a value.
+com.netsuite.ide.exception.CliException: Option "-scriptid" must have a value.
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:390)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-08-25 14:54:02,257 - *** ERROR ***
+2017-08-25 14:54:02,258 - 
+2017-08-25 14:54:02,258 - Validation failed.
+2017-08-25 14:54:02,258 - 
+2017-08-25 14:54:02,258 - An error occurred during custom object validation. (custbody_last_notice_sent)
+2017-08-25 14:54:02,258 - Details: The object reference customlist_collection_notices is missing in the project and also not included in the dependencies list.
+2017-08-25 14:54:02,258 - File: ~/Objects/custbody_last_notice_sent.xml
+2017-08-25 14:54:11,502 - *** ERROR ***
+2017-08-25 14:54:11,502 - 
+2017-08-25 14:54:11,502 - Validation failed.
+2017-08-25 14:54:11,503 - 
+2017-08-25 14:54:11,503 - An error occurred during custom object validation. (custbody_last_notice_sent)
+2017-08-25 14:54:11,503 - Details: The object reference customlist_collection_notices is missing in the project and also not included in the dependencies list.
+2017-08-25 14:54:11,503 - File: ~/Objects/custbody_last_notice_sent.xml
+2017-08-25 14:56:10,407 - An option is expected here instead of "./".
+com.netsuite.ide.exception.CliException: An option is expected here instead of "./".
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:377)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-08-25 14:56:22,922 - -all or -feature, -file, -object must be specified.

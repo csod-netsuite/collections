@@ -1,0 +1,20 @@
+<mapreducescript scriptid="customscript_csod_mr_send_coll_letters">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>CSOD MR Send Collection Letters</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_csod_mr_send_coll_letters">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueids></queueids>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>NOTSCHEDULED</status>
+      <useallqueues>T</useallqueues>
+      <yieldaftermins>60</yieldaftermins>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>

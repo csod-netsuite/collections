@@ -11,5 +11,8 @@
       <feature required="false">CRM</feature>
       <feature required="false">CREATESUITEBUNDLES</feature>
     </features>
+    <objects>
+      <object>customlist_collection_notices</object>
+    </objects>
   </dependencies>
 </manifest>
