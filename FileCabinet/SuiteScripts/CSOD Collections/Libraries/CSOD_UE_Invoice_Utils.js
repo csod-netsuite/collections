@@ -69,11 +69,6 @@ function(moment, format, record) {
 	
 	function updateAdjustDueDate(context) {
 		
-		log.audit({
-			title: 'updateAdjustDueDate called',
-			details: ''
-		});
-		
 		var newRec = context.newRecord;
 		var oldRec = context.oldRecord;
 		var origDueDate = oldRec.getValue({ fieldId: 'duedate' }) || newRec.getValue({ fieldId: 'duedate' });
@@ -119,9 +114,11 @@ function(moment, format, record) {
         });
     }
 
-
+    //@TODO: BUG 8/30/2017 : Grace Period End Date (custbody_csod_grace_period_enddate) Populates without uncheck validation
 	function createTimeStamp(oldRec, newRec) {
-        if(!oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'})) {
+
+        if(oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === false
+            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === true) {
             // Grace Period is checked
             // write timestamp to custbody_csod_grace_period_startdate
 
@@ -129,7 +126,8 @@ function(moment, format, record) {
             log.debug(dateToWrite);
             submitRecord(newRec, {custbody_csod_grace_period_startdate : dateToWrite});
 
-        } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) && !newRec.getValue({fieldId: 'custbody_csod_add_grace_period'})) {
+        } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === true
+            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === false) {
             // Grace Period is unchecked
             // write timestampt to custbody_csod_grace_period_enddate
             // Calculate how many grace periods were given in days
@@ -158,35 +156,35 @@ function(moment, format, record) {
         }
 	};
 	
-	function addGracePeriod(rec, gracePeriod) {
-		var currDueDate = rec.getValue({fieldId: 'custbody_adjusted_due_date'});
-
-		var dateGracePeriodAdded = getFormattedDate(moment(currDueDate).add(gracePeriod, 'days'));
-
-        log.debug({
-            title: 'addGracePeriod',
-            details: 'currDueDate : ' + currDueDate + ', dateGracePeriodAdded : ' + dateGracePeriodAdded
-        });
-
-        // set new custbody_adjusted_due_date and uncheck custbody_csod_add_grace_period
-
-        var submittedId = record.submitFields({
-           type: rec.type,
-           id: rec.id,
-           values: {
-               custbody_adjusted_due_date: new Date(dateGracePeriodAdded)
-           },
-           options: {
-               enableSourcing: false,
-               ignoreMandatoryFields: true
-           }
-        });
-
-        log.debug({
-            title: 'Record Updated',
-            details: 'ID : ' + submittedId
-        });
-	}
+	// function addGracePeriod(rec, gracePeriod) {
+	// 	var currDueDate = rec.getValue({fieldId: 'custbody_adjusted_due_date'});
+    //
+	// 	var dateGracePeriodAdded = getFormattedDate(moment(currDueDate).add(gracePeriod, 'days'));
+    //
+     //    log.debug({
+     //        title: 'addGracePeriod',
+     //        details: 'currDueDate : ' + currDueDate + ', dateGracePeriodAdded : ' + dateGracePeriodAdded
+     //    });
+    //
+     //    // set new custbody_adjusted_due_date and uncheck custbody_csod_add_grace_period
+    //
+     //    var submittedId = record.submitFields({
+     //       type: rec.type,
+     //       id: rec.id,
+     //       values: {
+     //           custbody_adjusted_due_date: new Date(dateGracePeriodAdded)
+     //       },
+     //       options: {
+     //           enableSourcing: false,
+     //           ignoreMandatoryFields: true
+     //       }
+     //    });
+    //
+     //    log.debug({
+     //        title: 'Record Updated',
+     //        details: 'ID : ' + submittedId
+     //    });
+	// }
 
 	exports.updateAdjustDueDate = updateAdjustDueDate;
 	exports.createTimeStamp = createTimeStamp;

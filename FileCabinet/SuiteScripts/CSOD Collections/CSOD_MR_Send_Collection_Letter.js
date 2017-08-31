@@ -1,5 +1,5 @@
-define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.js'],
-    function (search, render, email, csod) {
+define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries/CSOD_MR_Collection_Libs.js'],
+    function (search, render, email, record, runtime, csod) {
 
     /**
      * Find & Send Collection Letter
@@ -12,7 +12,9 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
      * @NScriptType MapReduceScript
      */
     var exports = {};
-
+        /**
+         * Entry Points
+         */
     var getInputData = function() {
         return search.create({
             type: "invoice",
@@ -29,6 +31,7 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
             ],
             columns: [
                 "internalid",
+                "tranid",
                 "entity",
                 "custbody_adjusted_due_date",
                 search.createColumn({
@@ -50,6 +53,8 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
             details: context.value
         });
 
+        invoice.emailStatus = '';
+
         // Data to retrieve from customer record
         // author custentity9
         // recipient email
@@ -59,17 +64,27 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
         var daysOverDue = invoice.values.formulanumeric;
         var collectionStatus = invoice.values.custbody_csod_coll_state.value;
         var lastNoticeType = invoice.values.custbody_last_notice_sent.value;
+        var customerId = invoice.values.entity.value;
 
         // Loading Data from Customer Record
         var custLookup = search.lookupFields({
             type: search.Type.CUSTOMER,
-            id: invoice.values.entity.value,
+            id: customerId,
             columns: ['custentity9', 'custentity_primary_language', 'email']
+        });
+
+        // get Primary Email and CC list by searching contact record
+        var emailObj = getEmailList(customerId);
+
+        log.debug({
+            title: "emailObj check",
+            details: emailObj
         });
 
         var employeeId = custLookup.custentity9[0].value;
         var language = custLookup.custentity_primary_language[0].value || '1';
-        var recipient = custLookup.email;
+        var recipient = emailObj.primary;
+        var CCs = emailObj.copied;
 
         log.debug({
             title: 'Customer Data Lookup',
@@ -78,27 +93,101 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
 
         // get Template ID
         var TEMPLATE_ID = getTemplateId(daysOverDue, collectionStatus, language, lastNoticeType);
-        var mergeResult = mergeEmail(+TEMPLATE_ID, +context.key);
-        var invoicePDF = getInvoicePDF(+context.key);
 
-        // Send Email if email is not empty
-        if (recipient && employeeId) {
-            sendCollectionLetter(employeeId, recipient, mergeResult,
-                invoicePDF, context.key, invoice.values.entity.value);
+        log.debug({
+            title: 'TEMPLATE_ID check',
+            details: TEMPLATE_ID
+        });
+
+        // if TEMPLATE_ID is empty, email should not send
+        if(TEMPLATE_ID !== '') {
+            var mergeResult = mergeEmail(+TEMPLATE_ID, +context.key);
+            var invoicePDF = getInvoicePDF(+context.key);
+
+            if (recipient && employeeId) {
+                // Send out collection Email
+
+                log.audit({
+                    title: "Email Sent Audit",
+                    details: "Invoice ID " + context.key + " sent"
+                });
+
+                sendCollectionLetter(employeeId, recipient, mergeResult, CCs,
+                    invoicePDF, context.key, invoice.values.entity.value);
+
+                invoice.emailStatus = 'Email Sent';
+                // Update the invoice with updated custbody_last_notice_sent (Last Notice Type)
+                // Email should have been sent out at this point.
+                updateLastNoticeField(lastNoticeType, context.key);
+
+
+            } else {
+                invoice.emailStatus = 'Primary Email Missing';
+            }
+        } else {
+            invoice.emailStatus = 'Skip';
         }
-
 
         log.debug({
             title: 'Template Merge Check',
             details: 'data type: ' + typeof invoicePDF + ', template id: ' + TEMPLATE_ID
         });
 
+        context.write(context.key, invoice);
+
     };
 
     var summarize = function(summary) {
         csod.handleErrorIfAny(summary);
+
+        var scriptOpj = runtime.getCurrentScript();
+        var SUM_REP_REC = scriptOpj.getParameter({name: 'custscript_csod_coll_sum_report_emails'}).split(';');
+        log.debug({
+            title: 'Script Params Check',
+            details: SUM_REP_REC
+        });
+        var report = "";
+
+        summary.output.iterator().each(function(key, value) {
+
+            var value = JSON.parse(value);
+
+            if(value.emailStatus == "Skip") {
+                report += 'Email skipped for : ';
+                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
+            } else if(value.emailStatus == "Email Sent") {
+                report += 'Email successfully sent for : ';
+                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
+            } else if(value.emailStatus == "Primary Email Missing") {
+                report += 'Email failed to send (Missing Email Address) for : ';
+                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
+            }
+            return true;
+        });
+
+        if(report !== "" && SUM_REP_REC.length > 0) {
+            report += "<br/><br/> This email is generated by Collection Letter Script <br/><br/>";
+
+            email.send({
+                author: '92993',
+                recipients: SUM_REP_REC,
+                subject: 'Collection Letter Summary Report',
+                body: report
+            });
+
+        };
+
+        log.debug({
+            title: "Summary Report",
+            details: report
+        });
+
     };
 
+
+        /**
+         * Support functions and Utils
+         */
     var mergeEmail = function(tempId, recordId) {
         return render.mergeEmail({
             templateId: tempId,
@@ -123,10 +212,9 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
             // Standard Baseline Under 1M || GE and CFS
 
             // Send only 1st Due Notice
+            if(+daysOverDue > 5 && lastNotice === '0') {
 
-            if(+daysOverDue > 5 && lastNotice == '0') {
                 // Send 1st Notice
-
                 if(language == '2') {
                     templateId = csod.TEMPATE_ID.FRENCH.A;
                 } else if(language == '8') {
@@ -140,7 +228,7 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
             // Baseline Over 1M || Past Due less than 10% of Baseline
             // Send 1st and 2nd notice
 
-            if(+daysOverDue > 5 && lastNotice == '0'){
+            if(+daysOverDue > 5 && lastNotice == '0') {
                 // SEND 1st Notice
                 if(language == '2') {
                     templateId = csod.TEMPATE_ID.FRENCH.A;
@@ -166,18 +254,19 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
 
     };
 
-    var sendCollectionLetter = function(from, to, templateRender, invoicePDF, tranId, custId) {
+    var sendCollectionLetter = function(from, to, templateRender, CCs, invoicePDF, tranId, custId) {
 
         try {
             email.send({
-                author: +from,
-                recipients: ["cyi@csod.com"],
+                author: from,
+                recipients: to,
+                cc: CCs,
                 subject: templateRender.subject,
                 body: templateRender.body,
-                attachments: invoicePDF,
+                attachments: [invoicePDF],
                 relatedRecords: {
-                    transactionId: +tranId,
-                    entityId: +custId
+                    transactionId: tranId,
+                    entityId: custId
                 }
             });
         } catch (e) {
@@ -185,7 +274,79 @@ define(['N/search', 'N/render', 'N/email', './Libraries/CSOD_MR_Collection_Libs.
                 title: 'ERROR',
                 details: e
             });
+        };
+    };
+
+    var updateLastNoticeField = function(lastNoticeType, invId) {
+        var lastNoticeValue = lastNoticeType || '0';
+        var newLastNoticeType = '0';
+
+        // Update newLastNoticeType
+        if(lastNoticeValue === '0') {
+            newLastNoticeType = '1';
+
+        } else if(lastNoticeType == '1') {
+            newLastNoticeType = '2';
         }
+
+        if(newLastNoticeType !== '0') {
+            record.submitFields({
+                type: record.Type.INVOICE,
+                id: invId,
+                values: {
+                    custbody_last_notice_sent: newLastNoticeType
+                },
+                options: {
+                    enableSourcing: false,
+                    ignoreMandatoryFields : true
+                }
+            });
+        }
+    };
+
+        /**
+         * Finds Contacts associated with customerID
+         * And returns results in object
+         * @param customerId
+         * @return {object}
+         */
+    var getEmailList = function(customerId) {
+
+        var output = {};
+        output['primary'] = '';
+        output['copied'] = [];
+
+        var contactSearchObj = search.create({
+            type: "contact",
+            filters: [
+                ["company","anyof",customerId]
+            ],
+            columns: [
+                "email",
+                "custentity_invoicerecipient"
+            ]
+        });
+        var searchResultCount = contactSearchObj.runPaged().count;
+
+        if(searchResultCount > 0) {
+            contactSearchObj.run().each(function(result){
+                // .run().each has a limit of 4,000 results
+                var email = result.getValue({name: "email"});
+                var invoiceRecipientId = result.getValue({name: "custentity_invoicerecipient"});
+
+                if(invoiceRecipientId == '1') {
+                    // primary
+                    output.primary = email;
+                } else if(invoiceRecipientId == '2') {
+                    // CCs
+                    output.copied.push(email);
+                }
+
+                return true;
+            });
+        }
+
+        return output;
     };
 
     exports.getInputData = getInputData;

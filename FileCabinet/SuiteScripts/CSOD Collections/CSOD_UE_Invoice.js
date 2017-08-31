@@ -13,7 +13,7 @@ define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(
 
     var afterSubmit = function(context) {
 
-        if(context.type == context.UserEventType.EDIT) {
+        if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
 
             var newRec = context.newRecord;
             var oldRec = context.oldRecord;
