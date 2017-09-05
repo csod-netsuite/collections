@@ -238,7 +238,7 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
             // redirect to same suitelet to give message to the user
             redirect.toSuitelet({
                 scriptId: script.id,
-                de​p​l​o​y​m​e​n​t​I​d: script.deploymentId,
+                deploymentId: script.deploymentId,
                 parameters: {
                     'success': true
                 }
