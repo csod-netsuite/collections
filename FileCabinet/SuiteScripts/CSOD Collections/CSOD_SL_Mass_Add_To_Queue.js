@@ -265,6 +265,8 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
                 "AND",
                 ["custbody_csod_add_grace_period", "is", "F"],
                 "AND",
+                ["customer.custentity_inv_que_exempt", "is", "F"],
+                "AND",
                 ["status","noneof","CustInvc:B","CustInvc:V"]
             ],
             columns: [

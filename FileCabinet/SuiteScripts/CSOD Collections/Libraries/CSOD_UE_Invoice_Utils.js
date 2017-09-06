@@ -139,7 +139,7 @@ function(moment, format, record) {
             var gracePeriodEndDate = moment(new Date());
 
             var daysWereOnHold = +oldRec.getValue({fieldId: 'custbody_csod_grace_period_days_onhold'}) || 0;
-            var gracePeriodInDays = +gracePeriodEndDate.diff(gracePeriodStartDate, 'days');
+            var gracePeriodInDays = +gracePeriodEndDate.diff(gracePeriodStartDate, 'days') || 0;
 
             log.debug({
                 title: 'Checking values in CreateTimeStamp',

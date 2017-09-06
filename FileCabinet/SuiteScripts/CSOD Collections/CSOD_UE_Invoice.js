@@ -27,12 +27,11 @@ define(['N/record', 'N/runtime', './Libraries/CSOD_UE_Invoice_Utils'], function(
      var beforeSubmit = function(context) {
     	
     	if(context.type == context.UserEventType.EDIT || context.type == context.UserEventType.XEDIT) {
-    		if(runtime.executionContext == runtime.ContextType.USERINTERFACE) {
-        		// set adjust due date
-        		log.debug(context.type);
-                csod_lib.updateAdjustDueDate(context);
-    		}
-
+    	
+        	// set adjust due date
+        	log.debug(context.type);
+            csod_lib.updateAdjustDueDate(context);
+    		
     	}
 
     };
