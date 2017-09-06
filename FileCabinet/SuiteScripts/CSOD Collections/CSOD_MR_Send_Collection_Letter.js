@@ -29,7 +29,11 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 "AND",
                 ["status","anyof","CustInvc:A"],
                 "AND",
-                ["customermain.custentity_inv_que_exempt","is","F"]
+                ["customermain.custentity_inv_que_exempt","is","F"],
+                "AND",
+                ["custbody_no_overdue_notices", "is", "F"],
+                "AND",
+                ["custbody_contingent_due_check", "is", "F"]
             ],
             columns: [
                 "internalid",
