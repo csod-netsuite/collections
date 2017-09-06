@@ -32,7 +32,7 @@ function(search, record, error, csod) {
                    ["status","anyof","CustInvc:A", "CustInvc:D"],
                    "AND",
                    //@TODO Adjust this when deploying to production
-                   ["lastmodifieddate","onorafter","9/5/2017 12:00 am"]
+                   ["lastmodifieddate","onorafter","9/6/2017 2:00 pm"]
     		   ],
     		   columns: [
     		      "internalid"

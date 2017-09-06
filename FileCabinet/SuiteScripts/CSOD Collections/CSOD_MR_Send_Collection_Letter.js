@@ -33,7 +33,10 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 "AND",
                 ["custbody_no_overdue_notices", "is", "F"],
                 "AND",
-                ["custbody_contingent_due_check", "is", "F"]
+                ["custbody_contingent_due_check", "is", "F"],
+                "AND",
+                //@TODO Adjust this when deploying to production
+                ["lastmodifieddate","onorafter","9/6/2017 2:00 pm"]
             ],
             columns: [
                 "internalid",
