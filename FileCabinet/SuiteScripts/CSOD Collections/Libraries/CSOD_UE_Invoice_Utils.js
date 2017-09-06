@@ -116,8 +116,8 @@ function(moment, format, record) {
 
 	function createTimeStamp(oldRec, newRec) {
 
-        if(oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === false
-            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === true) {
+        if(oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) == false
+            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) == true) {
             // Grace Period is checked
             // write timestamp to custbody_csod_grace_period_startdate
 
@@ -125,7 +125,7 @@ function(moment, format, record) {
             log.debug(dateToWrite);
             submitRecord(newRec, {custbody_csod_grace_period_startdate : dateToWrite});
 
-        } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === true
+        } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) == true
             && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) == false) {
             // Grace Period is unchecked
             // write timestampt to custbody_csod_grace_period_enddate
