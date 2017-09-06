@@ -114,7 +114,6 @@ function(moment, format, record) {
         });
     }
 
-    //@TODO: BUG 8/30/2017 : Grace Period End Date (custbody_csod_grace_period_enddate) Populates without uncheck validation
 	function createTimeStamp(oldRec, newRec) {
 
         if(oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === false
@@ -127,7 +126,7 @@ function(moment, format, record) {
             submitRecord(newRec, {custbody_csod_grace_period_startdate : dateToWrite});
 
         } else if (oldRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === true
-            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) === false) {
+            && newRec.getValue({fieldId: 'custbody_csod_add_grace_period'}) == false) {
             // Grace Period is unchecked
             // write timestampt to custbody_csod_grace_period_enddate
             // Calculate how many grace periods were given in days
