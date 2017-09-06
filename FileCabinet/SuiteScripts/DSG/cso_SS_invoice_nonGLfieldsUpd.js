@@ -46,7 +46,7 @@ function service(request, response)
 	if(request.getMethod() == 'GET')
 	{
 		var recId = request.getParameter('recid');
-		nlapiLogExecution('Error', 'Checking', 'Inv - ' + recId);
+		nlapiLogExecution('DEBUG', 'Checking', 'Inv - ' + recId);
 		var recType = request.getParameter('rectype');
 		if(recId == null || recId == '' || recType == null || recType == '')
 		{
@@ -272,9 +272,11 @@ function service(request, response)
 		var fax = request.getParameter('custpage_fax');
 		var msgSel = request.getParameter('custpage_msgsel');
 		var markingFldVal = request.getParameter('custpage_marking_fld');
-		var doNotSendCollecEmail = request.getParameter('custpage_do_not_send_collec_email');
+		var doNotSendCollecEmail = request.getParameter('custpage_do_not_send_collec_email') || 'F';
 		var doNotAddQueue = request.getParameter('custpage_do_not_add_queue');
 		var poReqDate = request.getParameter('custpage_po_requested_date');
+
+		nlapiLogExecution("DEBUG", "Checking doNotSendCollecEmail param", doNotSendCollecEmail);
 		
 		var rec = nlapiLoadRecord(recType, recId);
 		//nlapiLogExecution('Error', 'Checking', 'Rec Id - ' + rec.getFieldValue('tranid'));
@@ -283,6 +285,8 @@ function service(request, response)
 			//nlapiLogExecution('Error', 'Checking', 'Date on Rec - ' + rec.getFieldValue('trandate') + ', Date on Suitelet - ' + date);
 			rec.setFieldValue('trandate', date);
 		}
+
+		nlapiLogExecution("DEBUG", "Checking values for rec.getFieldValue('custbody_no_overdue_notices')", rec.getFieldValue('custbody_no_overdue_notices'));
 		
 		rec.setFieldValue('terms', term == null ? '' : term);
 		rec.setFieldValue('otherrefnum', po == null ? '' : po);
@@ -301,9 +305,11 @@ function service(request, response)
 			rec.setFieldValue('custbody_expected_ptp', expPTPVal == null ? '' : expPTPVal);
 		if(markingFldVal != rec.getFieldValue('custbody_collectionsnotice_markfield') && markingFldVal != null)
 			rec.setFieldValue('custbody_collectionsnotice_markfield', markingFldVal);
-		if(doNotSendCollecEmail != rec.getFieldValue('custbody_no_overdue_notices'))
-			rec.setFieldValue('custbody_no_overdue_notices', doNotSendCollecEmail);
-		
+		if(doNotSendCollecEmail != rec.getFieldValue('custbody_no_overdue_notices')) {
+			nlapiLogExecution("DEBUG", "Checking or onchecking custbody_no_overdue_notices");
+            rec.setFieldValue('custbody_no_overdue_notices', doNotSendCollecEmail);
+		}
+
 		if(billTo != null && billTo != '' && rec.getFieldValue('billaddresslist') != billTo)
 			rec.setFieldValue('billaddresslist', billTo);
 		//nlapiLogExecution('Error', 'Checking', 'Ship To - ' + shipTo);
@@ -344,9 +350,9 @@ function service(request, response)
 		try{
 			nlapiSubmitRecord(rec, false, true);
 		}catch(er){
-			er = nlapiCreateError(er);
-			nlapiLogExecution('Error', 'Checking', 'Error - ' + er.getDetails());
-			throw er;
+			//nlapiCreateError(er);
+			nlapiLogExecution('Error', 'Checking', er);
+
 		}
 		nlapiSetRedirectURL('RECORD', recType, recId, false, null);
 	}
