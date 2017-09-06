@@ -23,13 +23,16 @@ function(search, record, error, csod) {
     	var transactionSearchObj = search.create({
     		   type: "transaction",
     		   filters: [
-    		      ["mainline","is","T"], 
-    		      "AND", 
-    		      ["custbody_record_emailed","is","T"], 
-    		      "AND", 
-    		      ["custbody_adjusted_due_date","isnotempty",""], 
-    		      "AND", 
-    		      ["status","anyof","CustInvc:A", "CustInvc:D"]
+    		       ["mainline","is","T"],
+                   "AND",
+                   ["custbody_record_emailed","is","T"],
+                   "AND",
+                   ["custbody_adjusted_due_date","isnotempty",""],
+                   "AND",
+                   ["status","anyof","CustInvc:A", "CustInvc:D"],
+                   "AND",
+                   //@TODO Adjust this when deploying to production
+                   ["lastmodifieddate","onorafter","9/5/2017 12:00 am"]
     		   ],
     		   columns: [
     		      "internalid"
@@ -54,13 +57,14 @@ function(search, record, error, csod) {
         var lookupObj = search.lookupFields({
 			type: search.Type.INVOICE,
 			id: context.key,
-			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity']
+			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity', 'custbody_csod_coll_state']
 		});
 
         var subsidiaryId = lookupObj.subsidiary[0].value;
         var customerId = +lookupObj.entity[0].value;
         var amountPaid = +lookupObj.amountpaid;
 		var amountRemaining = +lookupObj.amountremaining;
+		var prevCollState = lookupObj.custbody_csod_coll_state[0].value;
 
 		var baseLineObj = search.lookupFields({
 			type: search.Type.CUSTOMER,
@@ -93,7 +97,7 @@ function(search, record, error, csod) {
 			});
 		}
 
-		if(collectionState !== '') {
+		if(collectionState !== '' && prevCollState != collectionState) {
 			var submittedId = record.submitFields({
 				type: record.Type.INVOICE,
 				id: context.key,
