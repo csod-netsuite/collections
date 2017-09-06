@@ -27,7 +27,9 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 "AND",
                 ["custbody_csod_add_grace_period","is","F"],
                 "AND",
-                ["status","anyof","CustInvc:A"]
+                ["status","anyof","CustInvc:A"],
+                "AND",
+                ["customermain.custentity_inv_que_exempt","is","F"]
             ],
             columns: [
                 "internalid",
