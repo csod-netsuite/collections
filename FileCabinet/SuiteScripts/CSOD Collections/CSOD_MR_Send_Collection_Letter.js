@@ -218,7 +218,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
             // Standard Baseline Under 1M || GE and CFS
 
             // Send only 1st Due Notice
-            if(+daysOverDue > 5 && lastNotice === '0') {
+            if(+daysOverDue >= 5 && lastNotice === '0') {
 
                 // Send 1st Notice
                 if(language == '2') {

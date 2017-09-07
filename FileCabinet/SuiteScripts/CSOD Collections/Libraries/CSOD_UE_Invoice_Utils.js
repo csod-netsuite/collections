@@ -98,6 +98,12 @@ function(moment, format, record) {
 				ignoreFieldChange : true
 			});
 
+            newRec.setValue({
+				fieldId: 'custbody_record_emailed',
+				value: true,
+                ignoreFieldChange: true
+			});
+
 		}
 
 	}
