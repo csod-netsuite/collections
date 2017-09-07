@@ -1,0 +1,44 @@
+<customlist scriptid="customlist_primary_languages">
+  <description>List to be used for Primary Language field on customer record</description>
+  <isinactive>F</isinactive>
+  <isordered>T</isordered>
+  <name>Primary Languages</name>
+  <customvalues>
+    <customvalue scriptid="value_1_642845_628">
+      <isinactive>F</isinactive>
+      <value>English</value>
+    </customvalue>
+    <customvalue scriptid="value_2_642845_628">
+      <isinactive>F</isinactive>
+      <value>French</value>
+    </customvalue>
+    <customvalue scriptid="value_3_642845_628">
+      <isinactive>F</isinactive>
+      <value>German</value>
+    </customvalue>
+    <customvalue scriptid="value_4_642845_628">
+      <isinactive>F</isinactive>
+      <value>Hindi</value>
+    </customvalue>
+    <customvalue scriptid="value_5_642845_628">
+      <isinactive>F</isinactive>
+      <value>Japanese</value>
+    </customvalue>
+    <customvalue scriptid="value_6_642845_628">
+      <isinactive>F</isinactive>
+      <value>Mandarin</value>
+    </customvalue>
+    <customvalue scriptid="value_7_642845_628">
+      <isinactive>F</isinactive>
+      <value>Portuguese</value>
+    </customvalue>
+    <customvalue scriptid="value_8_642845_628">
+      <isinactive>F</isinactive>
+      <value>Spanish</value>
+    </customvalue>
+    <customvalue scriptid="value_9_642845_628">
+      <isinactive>F</isinactive>
+      <value>Other</value>
+    </customvalue>
+  </customvalues>
+</customlist>

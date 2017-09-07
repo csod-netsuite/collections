@@ -46,8 +46,8 @@
   <showhierarchy>F</showhierarchy>
   <showinlist>F</showinlist>
   <sourcefilterby></sourcefilterby>
-  <sourcefrom>[custentity_primary_language]</sourcefrom>
-  <sourcelist>STDBODYPAYMENTCUSTOMER</sourcelist>
+  <sourcefrom></sourcefrom>
+  <sourcelist></sourcelist>
   <storevalue>T</storevalue>
   <subtab>TRANSACTIONMAIN</subtab>
 </transactionbodycustomfield>

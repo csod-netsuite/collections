@@ -36,7 +36,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
                 //@TODO Adjust this when deploying to production
-                ["lastmodifieddate","onorafter","9/6/2017 2:00 pm"]
+                ["lastmodifieddate","onorafter","9/6/2017 11:00 am"]
             ],
             columns: [
                 "internalid",

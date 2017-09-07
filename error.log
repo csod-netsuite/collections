@@ -321,3 +321,49 @@ com.netsuite.ide.exception.CliException: Invalid option "-path".
 	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
 	at java.lang.Thread.run(Thread.java:745)
 2017-09-06 14:31:17,467 - The file cabinet path(s) "SuiteScripts/DSG/cso_SS_invoice_nonGLfieldsUpd.js" are invalid. The file cabinet path must start with "/SuiteScripts".
+2017-09-07 09:05:40,808 - *** ERROR ***
+2017-09-07 09:05:40,808 - 
+2017-09-07 09:05:40,808 - Validation failed.
+2017-09-07 09:05:40,809 - 
+2017-09-07 09:05:40,809 - An error occurred during custom object validation. (custbody_inv_temp_language)
+2017-09-07 09:05:40,809 - Details: The object reference customlist_primary_languages is missing in the project and also not included in the dependencies list.
+2017-09-07 09:05:40,814 - Details: The object reference custentity_primary_language is missing in the project and also not included in the dependencies list.
+2017-09-07 09:05:40,815 - File: ~/Objects/custbody_inv_temp_language.xml
+2017-09-07 09:12:52,304 - You have entered an invalid email address or password. Please try again.
+java.lang.Exception: You have entered an invalid email address or password. Please try again.
+	at com.netsuite.ide.core.http.GetRolesHttpClient.getRoles(GetRolesHttpClient.java:55)
+	at com.netsuite.suiteapp.Account.retrieveDataCenterUrls(Account.java:172)
+	at com.netsuite.tools.SDF.getAccount(SDF.java:140)
+	at com.netsuite.tools.SDF.execute(SDF.java:270)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-09-07 09:22:12,807 - Option "-scriptid" must have a value.
+com.netsuite.ide.exception.CliException: Option "-scriptid" must have a value.
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:390)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-09-07 09:22:42,482 - Option "-destinationfolder" must be specified.
+com.netsuite.ide.exception.CliException: Option "-destinationfolder" must be specified.
+	at com.netsuite.ide.core.cli.CliParser.parseArguments(CliParser.java:437)
+	at com.netsuite.ide.core.cli.CliParser.getObjectInstance(CliParser.java:254)
+	at com.netsuite.tools.SDF.execute(SDF.java:254)
+	at com.netsuite.tools.SDF.main(SDF.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:294)
+	at java.lang.Thread.run(Thread.java:745)
+2017-09-07 09:23:10,777 - Invalid type(s) specified - all. Possible values are the following - center, role, centercategory, centertab, crmcustomfield, customlist, customrecordtype, entitycustomfield, form, itemcustomfield, itemnumbercustomfield, itemoptioncustomfield, othercustomfield, suitelet, restlet, usereventscript, scheduledscript, clientscript, portlet, massupdatescript, workflowactionscript, bundleinstallationscript, mapreducescript, transactionbodycustomfield, transactioncolumncustomfield, customglplugin, emailcaptureplugin, promotionsplugin, subtab, savedsearch, workflow.
