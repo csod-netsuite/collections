@@ -109,7 +109,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
         });
 
         // if TEMPLATE_ID is empty, email should not send
-        if(TEMPLATE_ID !== '') {
+        if(TEMPLATE_ID !== '' ) {
             var mergeResult = mergeEmail(+TEMPLATE_ID, +context.key);
             var invoicePDF = getInvoicePDF(+context.key);
 
@@ -161,10 +161,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
 
             var value = JSON.parse(value);
 
-            if(value.emailStatus == "Skip") {
-                report += 'Email skipped for : ';
-                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
-            } else if(value.emailStatus == "Email Sent") {
+            if(value.emailStatus == "Email Sent") {
                 report += 'Email successfully sent for : ';
                 report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
             } else if(value.emailStatus == "Primary Email Missing") {

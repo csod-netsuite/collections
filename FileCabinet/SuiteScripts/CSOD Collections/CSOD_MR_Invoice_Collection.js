@@ -55,16 +55,17 @@ function(search, record, error, csod) {
         });
 
         var lookupObj = search.lookupFields({
-			type: search.Type.INVOICE,
-			id: context.key,
-			columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity', 'custbody_csod_coll_state']
-		});
+            type: search.Type.INVOICE,
+            id: context.key,
+            columns: ['subsidiary', 'amountremaining', 'amountpaid', 'entity', 'custbody_csod_coll_state']
+        });
 
         var subsidiaryId = lookupObj.subsidiary[0].value;
         var customerId = +lookupObj.entity[0].value;
         var amountPaid = +lookupObj.amountpaid;
 		var amountRemaining = +lookupObj.amountremaining;
-		var prevCollState = lookupObj.custbody_csod_coll_state[0].value;
+
+		var prevCollState = lookupObj.custbody_csod_coll_state[0] !== undefined ? lookupObj.custbody_csod_coll_state[0].value : '';
 
 		var baseLineObj = search.lookupFields({
 			type: search.Type.CUSTOMER,
