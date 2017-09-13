@@ -90,8 +90,8 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
             details: emailObj
         });
 
-        var employeeId = custLookup.custentity9[0].value;
-        var language = custLookup.custentity_primary_language[0].value || '1';
+        var employeeId = custLookup.custentity9[0] !== undefined ? custLookup.custentity9[0].value : '';
+        var language = custLookup.custentity_primary_language[0] !== undefined ? custLookup.custentity_primary_language[0].value : '1';
         var recipient = emailObj.primary;
         var CCs = emailObj.copied;
 
@@ -225,6 +225,10 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                     templateId = csod.TEMPATE_ID.FRENCH.A;
                 } else if(language == '8') {
                     templateId = csod.TEMPATE_ID.SPANISH.A;
+                } else if(language == '3'){
+                    templateId = csod.TEMPATE_ID.GERMAN.A;
+                } else if(language == '6') {
+                    templateId = csod.TEMPATE_ID.CHINESE.A;
                 } else {
                     templateId = csod.TEMPATE_ID.ENGLISH.A;
                 }
@@ -234,21 +238,29 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
             // Baseline Over 1M || Past Due less than 10% of Baseline
             // Send 1st and 2nd notice
 
-            if(+daysOverDue > 5 && lastNotice == '0') {
+            if(+daysOverDue >= 5 && lastNotice == '0') {
                 // SEND 1st Notice
                 if(language == '2') {
                     templateId = csod.TEMPATE_ID.FRENCH.A;
                 } else if(language == '8') {
                     templateId = csod.TEMPATE_ID.SPANISH.A;
+                } else if(language == '3'){
+                    templateId = csod.TEMPATE_ID.GERMAN.A;
+                } else if(language == '6') {
+                    templateId = csod.TEMPATE_ID.CHINESE.A;
                 } else {
                     templateId = csod.TEMPATE_ID.ENGLISH.A;
                 }
-            } else if(+daysOverDue > 35 && lastNotice == '1') {
+            } else if(+daysOverDue >= 35 && lastNotice == '1') {
                 // SEND 2nd Noitce
                 if(language == '2') {
                     templateId = csod.TEMPATE_ID.FRENCH.B;
                 } else if(language == '8') {
                     templateId = csod.TEMPATE_ID.SPANISH.B;
+                } else if(language == '3'){
+                    templateId = csod.TEMPATE_ID.GERMAN.B;
+                } else if(language == '6') {
+                    templateId = csod.TEMPATE_ID.CHINESE.B;
                 } else {
                     templateId = csod.TEMPATE_ID.ENGLISH.B;
                 }

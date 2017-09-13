@@ -14,6 +14,14 @@ define(['N/error'], function(error){
         SPANISH: {
             A: '198',
             B: '200'
+        },
+        GERMAN: {
+            A: '245',
+            B: '246'
+        },
+        CHINESE: {
+            A: '249',
+            B: '250'
         }
     };
 
