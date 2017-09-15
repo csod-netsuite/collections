@@ -95,6 +95,8 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
         var recipient = emailObj.primary;
         var CCs = emailObj.copied;
 
+        invoice.values['collector'] = custLookup.custentity9[0] !== undefined ? custLookup.custentity9[0] : '';
+
         log.debug({
             title: 'Customer Data Lookup',
             details: 'Email : ' + recipient + ', employeeId : ' + employeeId
@@ -163,10 +165,10 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
 
             if(value.emailStatus == "Email Sent") {
                 report += 'Email successfully sent for : ';
-                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
+                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + ', Collector: ' + value.values.collector.text + '<br/>';
             } else if(value.emailStatus == "Primary Email Missing") {
                 report += 'Email failed to send (Missing Email Address) for : ';
-                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + '<br/>';
+                report += 'Invoice# : ' + value.values.tranid + ', Customer : ' + value.values.entity.text + ', Collector: ' + value.values.collector.text + '<br/>';
             }
             return true;
         });
