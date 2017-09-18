@@ -1,0 +1,36 @@
+<customlist scriptid="customlist_collection_notices">
+  <description>List of CSOD Collection Notices Sent</description>
+  <isinactive>F</isinactive>
+  <isordered>T</isordered>
+  <name>Collection Notice List</name>
+  <customvalues>
+    <customvalue scriptid="val_6581409_642845_sb2_132">
+      <isinactive>F</isinactive>
+      <value>1st Past Due Notice</value>
+    </customvalue>
+    <customvalue scriptid="val_6581410_642845_sb2_744">
+      <isinactive>F</isinactive>
+      <value>2nd Past Due Notice</value>
+    </customvalue>
+    <customvalue scriptid="val_6581411_642845_sb2_165">
+      <isinactive>F</isinactive>
+      <value>Disruption Notice</value>
+    </customvalue>
+    <customvalue scriptid="val_6581412_642845_sb2_757">
+      <isinactive>F</isinactive>
+      <value>Pre-Admin Lockout</value>
+    </customvalue>
+    <customvalue scriptid="val_6581413_642845_sb2_877">
+      <isinactive>F</isinactive>
+      <value>Admin Lockout</value>
+    </customvalue>
+    <customvalue scriptid="val_6581414_642845_sb2_809">
+      <isinactive>F</isinactive>
+      <value>Portal Lockout</value>
+    </customvalue>
+    <customvalue scriptid="val_6581415_642845_sb2_851">
+      <isinactive>F</isinactive>
+      <value>Portal Decommission</value>
+    </customvalue>
+  </customvalues>
+</customlist>
