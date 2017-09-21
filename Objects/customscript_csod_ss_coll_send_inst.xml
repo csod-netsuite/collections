@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_csod_ss_coll_send_inst">
+  <defaultfunction>execute</defaultfunction>
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>CSOD SS Collection Send Instruction</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_SS_Send_Instruction.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy1">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>CSOD SS Collection Send Instruction</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2017-09-21</startdate>
+          <starttime>01:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
