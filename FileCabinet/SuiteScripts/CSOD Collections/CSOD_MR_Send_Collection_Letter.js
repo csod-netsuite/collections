@@ -36,7 +36,11 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
                 //@TODO Adjust this when deploying to production
-                ["lastmodifieddate","onorafter","9/6/2017 11:00 am"]
+                ["lastmodifieddate","onorafter","9/6/2017 11:00 am"],
+                "AND",
+                ["trandate","onorafter","8/1/2017"],
+                "AND",
+                ["custbody_adjusted_due_date","within","9/1/2017","9/17/2017"]
             ],
             columns: [
                 "internalid",
@@ -56,6 +60,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
 
     var map = function(context) {
         var invoice = JSON.parse(context.value);
+        var env = runtime.envType;
 
         log.debug({
             title: 'Data fed into map',
@@ -103,7 +108,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
         });
 
         // get Template ID
-        var TEMPLATE_ID = getTemplateId(daysOverDue, collectionStatus, language, lastNoticeType);
+        var TEMPLATE_ID = getTemplateId(daysOverDue, collectionStatus, language, lastNoticeType, env);
 
         log.debug({
             title: 'TEMPLATE_ID check',
@@ -210,7 +215,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
         });
     };
 
-    var getTemplateId = function(daysOverDue, collectionStatus, language, lastNoticeType) {
+    var getTemplateId = function(daysOverDue, collectionStatus, language, lastNoticeType, env) {
 
         // language 1 - English, 2 - French, 3 - German, 6 - Mandarin, 8 - Spanish
         var lastNotice = lastNoticeType || '0';
@@ -224,15 +229,20 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
 
                 // Send 1st Notice
                 if(language == '2') {
-                    templateId = csod.TEMPATE_ID.FRENCH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.FRENCH.A : csod.TEMPATE_ID.PROD.FRENCH.A;
                 } else if(language == '8') {
-                    templateId = csod.TEMPATE_ID.SPANISH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.SPANISH.A : csod.TEMPATE_ID.PROD.SPANISH.A;
                 } else if(language == '3'){
-                    templateId = csod.TEMPATE_ID.GERMAN.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.GERMAN.A : csod.TEMPATE_ID.PROD.GERMAN.A;
                 } else if(language == '6') {
-                    templateId = csod.TEMPATE_ID.CHINESE.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.CHINESE.A : csod.TEMPATE_ID.CHINESE.A;
                 } else {
-                    templateId = csod.TEMPATE_ID.ENGLISH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.ENGLISH.A : csod.TEMPATE_ID.ENGLISH.A;
                 }
             }
 
@@ -243,28 +253,38 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
             if(+daysOverDue >= 5 && lastNotice == '0') {
                 // SEND 1st Notice
                 if(language == '2') {
-                    templateId = csod.TEMPATE_ID.FRENCH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.FRENCH.A : csod.TEMPATE_ID.PROD.FRENCH.A;
                 } else if(language == '8') {
-                    templateId = csod.TEMPATE_ID.SPANISH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.SPANISH.A : csod.TEMPATE_ID.PROD.SPANISH.A;
                 } else if(language == '3'){
-                    templateId = csod.TEMPATE_ID.GERMAN.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.GERMAN.A : csod.TEMPATE_ID.PROD.GERMAN.A;
                 } else if(language == '6') {
-                    templateId = csod.TEMPATE_ID.CHINESE.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.CHINESE.A : csod.TEMPATE_ID.PROD.CHINESE.A;
                 } else {
-                    templateId = csod.TEMPATE_ID.ENGLISH.A;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.ENGLISH.A :  csod.TEMPATE_ID.PROD.ENGLISH.A;
                 }
             } else if(+daysOverDue >= 35 && lastNotice == '1') {
                 // SEND 2nd Noitce
                 if(language == '2') {
-                    templateId = csod.TEMPATE_ID.FRENCH.B;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.FRENCH.B : csod.TEMPATE_ID.PROD.FRENCH.B;
                 } else if(language == '8') {
-                    templateId = csod.TEMPATE_ID.SPANISH.B;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.SPANISH.B : csod.TEMPATE_ID.PROD.SPANISH.B;
                 } else if(language == '3'){
-                    templateId = csod.TEMPATE_ID.GERMAN.B;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.GERMAN.B : csod.TEMPATE_ID.PROD.GERMAN.B;
                 } else if(language == '6') {
-                    templateId = csod.TEMPATE_ID.CHINESE.B;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.CHINESE.B : csod.TEMPATE_ID.PROD.CHINESE.B;
                 } else {
-                    templateId = csod.TEMPATE_ID.ENGLISH.B;
+                    templateId = env == "SANDBOX" ?
+                        csod.TEMPATE_ID.SB.ENGLISH.B :  csod.TEMPATE_ID.PROD.ENGLISH.B;
                 }
             }
 
