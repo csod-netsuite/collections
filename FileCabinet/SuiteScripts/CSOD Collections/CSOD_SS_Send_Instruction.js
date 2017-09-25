@@ -1,4 +1,4 @@
-define(['N/search', 'N/file', 'N/email'], function (search, file, email) {
+define(['N/search', 'N/file', 'N/email', 'N/runtime'], function (search, file, email, runtime) {
 
     /**
      * Module Description...
@@ -32,11 +32,32 @@ define(['N/search', 'N/file', 'N/email'], function (search, file, email) {
      */
     function execute(context) {
         // TODO get list of emails by script params
+    	var scriptObj = runtime.getCurrentScript();
+    	var fileId = scriptObj.getParameter({name: "custscript_csod_coll_inst_file_id"});
+    	var recipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_email"});
+    	
+    	log.debug({
+    		title: "Loaded Script Context",
+    		details: "file ID: " + fileId + ", email : " + recipient
+    	});
         // TODO load file
-        file.load({
-
-        });
+    	var attachedFile = file.load({
+    		id: fileId
+    	});
+    	
+       
         // TODO send email
+    	var title = 'Collection Instructions';
+    	var body = 'Please see attached PDF';
+    	
+    	email.send({
+    		author: 1343,
+    		recipients: recipient,
+    		subject: title,
+    		body: body,
+    		attachments: [attachedFile]
+    		
+    	});
     }
 
     exports.execute = execute;

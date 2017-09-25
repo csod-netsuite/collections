@@ -8,6 +8,7 @@
  *	04/21/2015 Amod Deshpande, DSG Case 44985
  *	05/19/2015 Kalyani Chintala, DSG Case 45550
  *	05/10/2015 Amod Deshpande,	 DSG Case 48455
+ *	09/22/2017 Chan Yi, CSOD Internal - Collections
  */
 
 function beforeLoad(type, form, request)
@@ -118,6 +119,12 @@ function service(request, response)
 		
 		var poReqDateFld = form.addField('custpage_po_requested_date', 'date', 'PO Request Date');
 		poReqDateFld.setDefaultValue(rec.getFieldValue('custbody_po_requested_date'));
+		
+		var cmrrTotalFld = form.addField('custpage_cmrr_total_value', 'float', 'Total CMRR Value Input');
+		cmrrTotalFld.setDefaultValue(rec.getFieldValue('custbody_manual_total_cmrr_value'));
+		
+		var cmrrExemptFld = form.addField('custpage_cmrr_exempt', 'checkbox', 'CMRR Exempt');
+		cmrrExemptFld.setDefaultValue(rec.getFieldValue('custbody_cmrr_exempt_'));
 		
 		//Adding Addresses list from Customer
 		var addrTab = form.addTab('custpage_address_tab', 'Address');
@@ -275,6 +282,10 @@ function service(request, response)
 		var doNotSendCollecEmail = request.getParameter('custpage_do_not_send_collec_email') || 'F';
 		var doNotAddQueue = request.getParameter('custpage_do_not_add_queue');
 		var poReqDate = request.getParameter('custpage_po_requested_date');
+		
+//***CSOD CMRR
+		var cmrrTotalValue = request.getParameter('custpage_cmrr_total_value');
+		var cmrrExempt = request.getParameter('custpage_cmrr_exempt');
 
 		nlapiLogExecution("DEBUG", "Checking doNotSendCollecEmail param", doNotSendCollecEmail);
 		
@@ -329,6 +340,10 @@ function service(request, response)
 		
 		rec.setFieldValue('custbody_po_requested_date', poReqDate == null ? '' : poReqDate);
 		rec.setFieldValue('custbody_do_not_add_queue', doNotAddQueue == 'T'  ? 'T' : 'F');
+		
+// CSOD CMRR
+		rec.setFieldValue('custbody_cmrr_exempt_', cmrrExempt == 'T' ? 'T' : 'F');
+		rec.setFieldValue('custbody_manual_total_cmrr_value', cmrrTotalValue == null ? '' : cmrrTotalValue);
 		
 		var count = request.getLineItemCount('custlist');
 		for(var line=1; line <= count; line++)
