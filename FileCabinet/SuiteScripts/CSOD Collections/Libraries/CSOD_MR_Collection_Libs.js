@@ -1,4 +1,4 @@
-define(['N/error'], function(error){
+define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
 
     var exports = {};
 
@@ -65,9 +65,63 @@ define(['N/error'], function(error){
 
             return true;
         });
-    }
+    };
+
+    var searchToCSV = function(searchId) {
+        var content = [];
+        var cells = [];
+        var headers = [];
+        var temp = [];
+        var x = 0;
+
+        var src = search.load({
+           id: searchId
+        });
+
+        var columns = src.columns;
+        log.debug('src', columns);
+
+        // set headers
+        for(var i = 0; i < columns.length; i++) {
+            headers[i] = columns[i].label;
+        }
+        content[x] = headers;
+        x = 1;
+
+        // looping through results
+        src.run().each(function(result) {
+            // looping through columns
+            for(var y = 0; y < columns.length; y++) {
+                var searchResult = result.getText(columns[y]);
+                if(!searchResult) {
+                    searchResult = result.getValue(columns[y]);
+                }
+                temp[y] = searchResult;
+            }
+
+            content[x] += temp.toString();
+            x += 1;
+            return true;
+        });
+
+        // Creating string var that will be used as CSV content
+        var contents = '';
+        for(var z = 0; z < content.length; z++) {
+            contents += content[z] + '\n';
+        }
+
+        var fileObj = file.create({
+            name: 'collection_report.csv',
+            fileType: file.Type.CSV,
+            contents: contents,
+            encoding: file.Encoding.UTF8
+        });
+
+        return fileObj;
+    };
 
     exports.handleErrorIfAny = handleErrorIfAny;
     exports.TEMPATE_ID = TEMPATE_ID;
+    exports.searchToCSV = searchToCSV;
     return exports;
 });

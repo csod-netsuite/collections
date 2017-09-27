@@ -1,4 +1,5 @@
-define(['N/search', 'N/file', 'N/email', 'N/runtime'], function (search, file, email, runtime) {
+define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Collection_Libs'],
+	function (search, file, email, runtime, csod) {
 
     /**
      * Module Description...
@@ -35,18 +36,23 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime'], function (search, file, e
     	var scriptObj = runtime.getCurrentScript();
     	var fileId = scriptObj.getParameter({name: "custscript_csod_coll_inst_file_id"});
     	var recipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_email"});
+    	var americaRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_amrc_email"});
+    	var emeaRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_emea_email"});
+    	var apjRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_apj_email"});
     	
     	log.debug({
     		title: "Loaded Script Context",
     		details: "file ID: " + fileId + ", email : " + recipient
     	});
-        // TODO load file
+        // load instruction file
     	var attachedFile = file.load({
     		id: fileId
     	});
-    	
+
+    	// get CSV file ID for APJ
+        var csvObj = csod.searchToCSV('4957');
        
-        // TODO send email
+        // send email
     	var title = 'Collection Instructions';
     	var body = 'Please see attached PDF';
     	
@@ -55,8 +61,7 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime'], function (search, file, e
     		recipients: recipient,
     		subject: title,
     		body: body,
-    		attachments: [attachedFile]
-    		
+    		attachments: [attachedFile, csvObj]
     	});
     }
 

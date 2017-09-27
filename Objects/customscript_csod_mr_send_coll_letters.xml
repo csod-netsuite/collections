@@ -35,12 +35,40 @@ Enter email per each row.</help>
       <setting></setting>
       <storevalue>T</storevalue>
     </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_csod_coll_sum_report_sender">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>SELECT</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>CSOD Collection Report Sender</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete>SET_NULL</onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype>-4</selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
   </scriptcustomfields>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_csod_mr_send_coll_letters">
       <buffersize>32</buffersize>
       <concurrencylimit></concurrencylimit>
       <custscript_csod_coll_sum_report_emails>DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
+      <custscript_csod_coll_sum_report_sender></custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
@@ -59,7 +87,8 @@ Enter email per each row.</help>
     <scriptdeployment scriptid="customdeploy2">
       <buffersize>64</buffersize>
       <concurrencylimit></concurrencylimit>
-      <custscript_csod_coll_sum_report_emails>cyi@csod.com;bcarlson@csod.com;huichanyi@gmail.com</custscript_csod_coll_sum_report_emails>
+      <custscript_csod_coll_sum_report_emails>cyi@csod.com;DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
+      <custscript_csod_coll_sum_report_sender>[ACCOUNT_SPECIFIC_VALUE]</custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
