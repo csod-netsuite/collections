@@ -39,7 +39,10 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Colle
     	var americaRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_amrc_email"});
     	var emeaRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_emea_email"});
     	var apjRecipient = scriptObj.getParameter({name: "custscript_csod_coll_inst_apj_email"});
-    	
+    	var americaSearch = scriptObj.getParameter({name: "custscript_csod_coll_inst_amrc_src"});
+    	var emeaSearch = scriptObj.getParameter({name: "custscript_csod_coll_inst_emea_src"});
+    	var apjSearch = scriptObj.getParameter({name: "custscript_csod_coll_inst_apj_src"});
+
     	log.debug({
     		title: "Loaded Script Context",
     		details: "file ID: " + fileId + ", email : " + recipient
@@ -50,20 +53,29 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Colle
     	});
 
     	// get CSV file ID for APJ
-        var csvObj = csod.searchToCSV('4957');
+        var amerCsvObj = csod.searchToCSV(americaSearch);
+        var apjCsvObj = csod.searchToCSV(apjSearch);
+        var emeaCsvObj = csod.searchToCSV(emeaSearch);
        
         // send email
     	var title = 'Collection Instructions';
     	var body = 'Please see attached PDF';
-    	
-    	email.send({
-    		author: 1343,
-    		recipients: recipient,
-    		subject: title,
-    		body: body,
-    		attachments: [attachedFile, csvObj]
-    	});
+
+        sendEmail(americaRecipient, title, body, attachedFile, amerCsvObj);
+        sendEmail(apjRecipient, title, body, attachedFile, apjCsvObj);
+        sendEmail(emeaRecipient, title, body, attachedFile, emeaCsvObj);
+
     }
+
+    var sendEmail = function(recipient, title, body, instruction, report) {
+        email.send({
+            author: 1343,
+            recipients: recipient,
+            subject: title,
+            body: body,
+            attachments: [instruction, report]
+        });
+    };
 
     exports.execute = execute;
     return exports;

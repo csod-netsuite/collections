@@ -99,7 +99,7 @@ define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
                 temp[y] = searchResult;
             }
 
-            content[x] += temp.toString();
+            content[x] = temp.toString();
             x += 1;
             return true;
         });
