@@ -1,5 +1,5 @@
-define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Collection_Libs'],
-	function (search, file, email, runtime, csod) {
+define(['N/search', 'N/file', 'N/email', 'N/runtime', 'N/render','./Libraries/CSOD_MR_Collection_Libs'],
+	function (search, file, email, runtime, rendor, csod) {
 
     /**
      * Module Description...
@@ -43,6 +43,9 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Colle
     	var emeaSearch = scriptObj.getParameter({name: "custscript_csod_coll_inst_emea_src"});
     	var apjSearch = scriptObj.getParameter({name: "custscript_csod_coll_inst_apj_src"});
 
+    	//TODO fill in Prod ID
+    	var templateId = runtime.envType == "SANDBOX" ? '287' : '';
+
     	log.debug({
     		title: "Loaded Script Context",
     		details: "file ID: " + fileId + ", email : " + recipient
@@ -58,8 +61,11 @@ define(['N/search', 'N/file', 'N/email', 'N/runtime', './Libraries/CSOD_MR_Colle
         var emeaCsvObj = csod.searchToCSV(emeaSearch);
        
         // send email
-    	var title = 'Collection Instructions';
-    	var body = 'Please see attached PDF';
+    	var title = 'WARNING – Pending Collections Notice';
+    	var body = 'Hello Sales Team,<br /><br />';
+    	body += 'Please find this week&rsquo;s list of clients that will receive a service disruption notice. No action is required by you, unless you want to appeal to not have the disruption notice sent.&nbsp; The attached PDF provides information on the process and how to appeal a disruption notice.<br />';
+    	body += '<br/ >Best Regards, <br /><br />';
+    	body += 'Cornerstone OnDemand Collections';
 
         sendEmail(americaRecipient, title, body, attachedFile, amerCsvObj);
         sendEmail(apjRecipient, title, body, attachedFile, apjCsvObj);

@@ -96,7 +96,8 @@ define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
                 if(!searchResult) {
                     searchResult = result.getValue(columns[y]);
                 }
-                temp[y] = searchResult;
+
+                temp[y] = searchResult.replace(/[\n\r,]/g, '');
             }
 
             content[x] = temp.toString();
