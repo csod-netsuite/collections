@@ -88,7 +88,7 @@ Enter email per each row.</help>
       <buffersize>64</buffersize>
       <concurrencylimit></concurrencylimit>
       <custscript_csod_coll_sum_report_emails>cyi@csod.com;DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
-      <custscript_csod_coll_sum_report_sender>[ACCOUNT_SPECIFIC_VALUE]</custscript_csod_coll_sum_report_sender>
+      <custscript_csod_coll_sum_report_sender></custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>

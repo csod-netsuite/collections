@@ -14,12 +14,12 @@ define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
                 B: '251'
             },
             SPANISH: {
-                A: '252',
-                B: '253'
-            },
-            GERMAN: {
                 A: '254',
                 B: '255'
+            },
+            GERMAN: {
+                A: '252',
+                B: '253'
             },
             CHINESE: {
                 A: '256',
@@ -28,24 +28,24 @@ define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
         },
         SB: {
             ENGLISH: {
-                A: '49',
-                B: '48'
-            },
-            FRENCH: {
-                A: '197',
-                B: '199'
-            },
-            SPANISH: {
-                A: '198',
-                B: '200'
-            },
-            GERMAN: {
                 A: '245',
                 B: '246'
             },
-            CHINESE: {
+            FRENCH: {
+                A: '247',
+                B: '248'
+            },
+            SPANISH: {
+                A: '251',
+                B: '252'
+            },
+            GERMAN: {
                 A: '249',
                 B: '250'
+            },
+            CHINESE: {
+                A: '253',
+                B: '254'
             }
         }
 
