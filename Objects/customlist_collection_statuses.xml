@@ -1,0 +1,168 @@
+<customlist scriptid="customlist_collection_statuses">
+  <description>Possible outcomes based on an interaction with the Customer related to a Collections activity.</description>
+  <isinactive>F</isinactive>
+  <isordered>F</isordered>
+  <name>Collection Statuses</name>
+  <customvalues>
+    <customvalue scriptid="value_16_642845_628">
+      <isinactive>F</isinactive>
+      <value>Amendment in Progress</value>
+    </customvalue>
+    <customvalue scriptid="val_3994179_642845_471">
+      <isinactive>F</isinactive>
+      <value>Appeal Approved</value>
+    </customvalue>
+    <customvalue scriptid="val_7645447_642845_218">
+      <isinactive>F</isinactive>
+      <value>Client has filed BK - See notes</value>
+    </customvalue>
+    <customvalue scriptid="value_8_642845_628">
+      <isinactive>F</isinactive>
+      <value>Contingent Due Date - Project Incomplete</value>
+    </customvalue>
+    <customvalue scriptid="value_35_642845_628">
+      <isinactive>F</isinactive>
+      <value>Contingent Due Date/Project Incomplete</value>
+    </customvalue>
+    <customvalue scriptid="value_12_642845_628">
+      <isinactive>F</isinactive>
+      <value>Courtesy Reminder Sent</value>
+    </customvalue>
+    <customvalue scriptid="value_9_642845_628">
+      <isinactive>F</isinactive>
+      <value>DO NOT COLLECT - See Collection Notes</value>
+    </customvalue>
+    <customvalue scriptid="value_10_642845_628">
+      <isinactive>F</isinactive>
+      <value>Follow-up Task Assigned</value>
+    </customvalue>
+    <customvalue scriptid="value_5_642845_628">
+      <isinactive>F</isinactive>
+      <value>Followed Up Via Email - Pending Customer Response</value>
+    </customvalue>
+    <customvalue scriptid="value_17_642845_628">
+      <isinactive>F</isinactive>
+      <value>In Legal Review</value>
+    </customvalue>
+    <customvalue scriptid="value_4_642845_628">
+      <isinactive>F</isinactive>
+      <value>Left Message</value>
+    </customvalue>
+    <customvalue scriptid="value_6_642845_628">
+      <isinactive>F</isinactive>
+      <value>Paying by Credit Card</value>
+    </customvalue>
+    <customvalue scriptid="value_18_642845_628">
+      <isinactive>F</isinactive>
+      <value>Pending JE or Credit to Clear Balance</value>
+    </customvalue>
+    <customvalue scriptid="value_2_642845_628">
+      <isinactive>F</isinactive>
+      <value>PTP After End of Current Month</value>
+    </customvalue>
+    <customvalue scriptid="value_1_642845_628">
+      <isinactive>F</isinactive>
+      <value>PTP By End of Current Month</value>
+    </customvalue>
+    <customvalue scriptid="value_14_642845_628">
+      <isinactive>F</isinactive>
+      <value>Recv&apos;d Status Update from Customer</value>
+    </customvalue>
+    <customvalue scriptid="value_3_642845_628">
+      <isinactive>F</isinactive>
+      <value>Remittance Advice Received</value>
+    </customvalue>
+    <customvalue scriptid="value_34_642845_628">
+      <isinactive>F</isinactive>
+      <value>Reviewed Account - No action taken</value>
+    </customvalue>
+    <customvalue scriptid="value_11_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent Collection Letter</value>
+    </customvalue>
+    <customvalue scriptid="value_19_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent Collections Reminder via Collections Queue</value>
+    </customvalue>
+    <customvalue scriptid="value_23_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E100/L100 (Warning Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_24_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E100A (Past Due Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_25_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E100B (Past Due Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_26_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E101/L101 (Past Due Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_27_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E101A (Pre-Admin Lock-Out Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_28_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E201/L201 (Disruption Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_29_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E300/L300 (Friendly Warning Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_30_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E301/L301 (Disruption Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_31_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E400/L400 (Admin Lock-Out Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_32_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E400A (Past Due Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_33_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent E500/L500 (Past Due Notice)</value>
+    </customvalue>
+    <customvalue scriptid="value_20_642845_628">
+      <isinactive>F</isinactive>
+      <value>Sent Request for PO Number</value>
+    </customvalue>
+    <customvalue scriptid="val_3994180_642845_787">
+      <isinactive>F</isinactive>
+      <value>Sent to 3rd Party Collections Agency</value>
+    </customvalue>
+    <customvalue scriptid="value_22_642845_628">
+      <isinactive>F</isinactive>
+      <value>Service Reinstated</value>
+    </customvalue>
+    <customvalue scriptid="value_15_642845_628">
+      <isinactive>F</isinactive>
+      <value>Service Suspended</value>
+    </customvalue>
+    <customvalue scriptid="value_13_642845_628">
+      <isinactive>F</isinactive>
+      <value>Talked to Customer - Pending Update</value>
+    </customvalue>
+    <customvalue scriptid="val_3949732_642845_225">
+      <isinactive>F</isinactive>
+      <value>Termination/Settlement Agreement Signed</value>
+    </customvalue>
+    <customvalue scriptid="val_3994181_642845_560">
+      <isinactive>F</isinactive>
+      <value>Working with 3rd Party Collections Agency</value>
+    </customvalue>
+    <customvalue scriptid="value_7_642845_628">
+      <isinactive>F</isinactive>
+      <value>Working with AM to Resolve</value>
+    </customvalue>
+    <customvalue scriptid="value_21_642845_628">
+      <isinactive>F</isinactive>
+      <value>Working with Billing Team for Revision</value>
+    </customvalue>
+  </customvalues>
+</customlist>

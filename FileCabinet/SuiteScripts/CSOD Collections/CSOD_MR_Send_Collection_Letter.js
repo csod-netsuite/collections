@@ -60,7 +60,10 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                 "AND",
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
-                ["lastmodifieddate","onorafter",lastSuccDateTime]
+                ["lastmodifieddate","onorafter",lastSuccDateTime],
+                // TODO Delete this
+                "AND",
+                ["customer.internalid","anyof","102423"]
             ],
             columns: [
                 "internalid",
@@ -263,12 +266,17 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
         // language 1 - English, 2 - French, 3 - German, 6 - Mandarin, 8 - Spanish
         var lastNotice = lastNoticeType || '0';
         var templateId = '';
-
+        
+        log.debug({
+        	title: 'value check in getTemplateId',
+        	details: "language = " + language + "lastNotice = " + lastNotice + "daysOverDue = " + +daysOverDue 
+        });
+        
         if(collectionStatus == '1' || collectionStatus == '4') {
             // Standard Baseline Under 1M || GE and CFS
 
             // Send only 1st Due Notice
-            if(+daysOverDue >= 5 && lastNotice === '0') {
+            if(+daysOverDue >= 5 && lastNotice == '0') {
 
                 // Send 1st Notice
                 if(language == '2') {
@@ -282,10 +290,10 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                         csod.TEMPATE_ID.SB.GERMAN.A : csod.TEMPATE_ID.PROD.GERMAN.A;
                 } else if(language == '6') {
                     templateId = env == "SANDBOX" ?
-                        csod.TEMPATE_ID.SB.CHINESE.A : csod.TEMPATE_ID.CHINESE.A;
+                        csod.TEMPATE_ID.SB.CHINESE.A : csod.TEMPATE_ID.PROD.CHINESE.A;
                 } else {
                     templateId = env == "SANDBOX" ?
-                        csod.TEMPATE_ID.SB.ENGLISH.A : csod.TEMPATE_ID.ENGLISH.A;
+                        csod.TEMPATE_ID.SB.ENGLISH.A : csod.TEMPATE_ID.PROD.ENGLISH.A;
                 }
             }
 

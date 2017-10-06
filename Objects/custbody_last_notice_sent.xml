@@ -1,5 +1,5 @@
 <transactionbodycustomfield scriptid="custbody_last_notice_sent">
-  <accesslevel>1</accesslevel>
+  <accesslevel>2</accesslevel>
   <applyformatting>F</applyformatting>
   <bodycustomerpayment>F</bodycustomerpayment>
   <bodydeposit>F</bodydeposit>
@@ -41,7 +41,7 @@
   <parentsubtab></parentsubtab>
   <searchcomparefield></searchcomparefield>
   <searchdefault></searchdefault>
-  <searchlevel>1</searchlevel>
+  <searchlevel>2</searchlevel>
   <selectrecordtype>[customlist_collection_notices]</selectrecordtype>
   <showhierarchy>F</showhierarchy>
   <showinlist>F</showinlist>

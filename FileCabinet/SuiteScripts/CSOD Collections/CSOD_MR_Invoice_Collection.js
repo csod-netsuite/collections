@@ -111,9 +111,9 @@ function(search, record, error, runtime, format, csod) {
             collectionState = '4';
 		} else if (amountPaid > 0 && amountRemaining < baseLine10Pct && amountRemaining < 50000) {
             collectionState = '3';
-		} else if (baseLine > 1000000) {
+		} else if (baseLine >= 1000000) {
 			collectionState = '2';
-		} else if (baseLine <= 1000000) {
+		} else if (baseLine < 1000000) {
 			collectionState = '1';
 		} else {
 			log.audit({

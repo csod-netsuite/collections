@@ -122,6 +122,8 @@ function getCCEmpList(customerRec, exclEmpList, ccListFlds, pdfTmplId)
 
 function getBCCEmpList(customerRec, exclEmpList, bccListFlds)
 {
+	nlapiLogExecution('DEBUG', 'getBCCEmpList', 'bccListFlds - ' + bccListFlds);
+	nlapiLogExecution('DEBUG', 'getBCCEmpList', 'exclEmpList - ' + exclEmpList);
 	var bccEmpList = new Array();
 	if(bccListFlds != '')
 	{
@@ -180,7 +182,11 @@ function loadDefaultVals(custId, tmplId, tranId, isBeforeLoad)
 	var toEmail = recipientEmail == null ? '' : recipientEmail;
 	
 	toEmail = getToEmail(custId, toEmail);
+	
+	nlapiLogExecution('Debug', 'Chan-Check', toEmail);
+	
 	var ccEmailsList = getCCEmailsList(custId);
+	nlapiLogExecution('Debug', 'Chan-Check', ccEmailsList);
 	
 	var cols = new Array();
 	cols.push(new nlobjSearchColumn('custrecord_email_tmpl_assoc_pdf_file'));

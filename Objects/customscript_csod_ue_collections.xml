@@ -1,7 +1,7 @@
 <usereventscript scriptid="customscript_csod_ue_collections">
-  <aftersubmitfunction></aftersubmitfunction>
-  <beforeloadfunction></beforeloadfunction>
-  <beforesubmitfunction></beforesubmitfunction>
+  <aftersubmitfunction>afterSubmit</aftersubmitfunction>
+  <beforeloadfunction>beforeLoad</beforeloadfunction>
+  <beforesubmitfunction>beforeSubmit</beforesubmitfunction>
   <description></description>
   <isinactive>F</isinactive>
   <name>CSOD UE Invoice</name>

@@ -40,5 +40,9 @@
       <isinactive>F</isinactive>
       <value>Other</value>
     </customvalue>
+    <customvalue scriptid="val_9948952_642845_217">
+      <isinactive>F</isinactive>
+      <value>Chinese</value>
+    </customvalue>
   </customvalues>
 </customlist>

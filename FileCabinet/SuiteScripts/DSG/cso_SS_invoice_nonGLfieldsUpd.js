@@ -94,7 +94,7 @@ function service(request, response)
 //***DSG Case 44985 end
 		var expPTP = form.addField('custpage_expected_ptp', 'date', 'Expected PTP');
 		expPTP.setDefaultValue(rec.getFieldValue('custbody_expected_ptp'));
-		if(nlapiGetRole() != '3' && nlapiGetRole() != '1043' && nlapiGetRole() != '1027' && nlapiGetRole() != '1065')
+		if(nlapiGetRole() != '3' && nlapiGetRole() != '1043' && nlapiGetRole() != '1027' && nlapiGetRole() != '1065' && nlapiGetRole() != '1092')
 			expPTP.setDisplayType('hidden');
 
 //***DSG Case 44985 start
@@ -312,7 +312,7 @@ function service(request, response)
 //***DSG Case 44985 end
 		rec.setFieldValue('custbodylegal_contract_id', legalCtrId == null ? '' : legalCtrId);
 		
-		if(nlapiGetRole() == '3' || nlapiGetRole() == '1043' || nlapiGetRole() == '1027' || nlapiGetRole() == '1065') //*** Updated for DSG Case 48455
+		if(nlapiGetRole() == '3' || nlapiGetRole() == '1043' || nlapiGetRole() == '1027' || nlapiGetRole() == '1065' || nlapiGetRole() == '1092') //*** Updated for DSG Case 48455
 			rec.setFieldValue('custbody_expected_ptp', expPTPVal == null ? '' : expPTPVal);
 		if(markingFldVal != rec.getFieldValue('custbody_collectionsnotice_markfield') && markingFldVal != null)
 			rec.setFieldValue('custbody_collectionsnotice_markfield', markingFldVal);

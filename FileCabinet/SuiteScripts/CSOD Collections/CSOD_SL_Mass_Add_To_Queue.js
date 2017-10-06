@@ -267,7 +267,7 @@ define(['N/ui/serverWidget', 'N/runtime', 'N/search', 'N/record', 'N/redirect', 
                 "AND",
                 ["customermain.custentity_inv_que_exempt","is","F"],
                 "AND",
-                ["status","noneof","CustInvc:B","CustInvc:V"]
+                ["status","noneof","CustInvc:B","CustInvc:V","CustInvc:D"]
             ],
             columns: [
                 "internalid",

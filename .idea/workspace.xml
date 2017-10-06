@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7242ddff-0162-4a08-aea3-443b3b6ac517" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_MR_Collection_Libs.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_MR_Collection_Libs.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/error.log" afterPath="$PROJECT_DIR$/error.log" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,14 +28,24 @@
       <file leaf-file-name="CSOD_MR_Send_Collection_Letter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="41" column="11" lean-forward="false" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
+            <state relative-caret-position="-180">
+              <caret line="207" column="24" lean-forward="true" selection-start-line="207" selection-start-column="24" selection-end-line="207" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".sdf" pinned="false" current-in-tab="true">
+      <file leaf-file-name="customscript_csod_mr_send_coll_letters.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1828">
+              <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".sdf" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.sdf">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -304,12 +308,12 @@
       <workItem from="1506708883838" duration="1479000" />
       <workItem from="1506979338768" duration="730000" />
       <workItem from="1507216972950" duration="11834000" />
-      <workItem from="1507305067795" duration="11000" />
+      <workItem from="1507305067795" duration="678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="156089000" />
+    <option name="totallyTimeSpent" value="156756000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -606,14 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_invoice_nonGLfieldsUpd.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2047">
@@ -695,18 +691,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="41" column="11" lean-forward="false" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.sdf">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="207" column="24" lean-forward="true" selection-start-line="207" selection-start-column="24" selection-end-line="207" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1828">
+          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding />
         </state>
       </provider>
