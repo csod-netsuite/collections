@@ -3,11 +3,11 @@
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
  */
-define(['N/search', 'N/record', 'N/error', './Libraries/CSOD_MR_Collection_Libs.js'],
+define(['N/search', 'N/record', 'N/error', 'N/runtime', 'N/format', './Libraries/CSOD_MR_Collection_Libs.js'],
 /**
  * @param {search} search
  */
-function(search, record, error, csod) {
+function(search, record, error, runtime, format, csod) {
    
     /**
      * Marks the beginning of the Map/Reduce process and generates input data.
@@ -20,6 +20,31 @@ function(search, record, error, csod) {
      * @since 2015.1
      */
     function getInputData() {
+    	var currScript = runtime.getCurrentScript();
+    	var lastSuccDateTime = currScript.getParameter({name: 'custscript_csod_coll_last_succ_datetime'});
+
+    	if(lastSuccDateTime === '' || lastSuccDateTime === null) {
+    	    // abort data search if lastSuccDateTime is not defined
+    	    return;
+        }
+
+        var dateFormat = format.format({
+            value: lastSuccDateTime,
+            type: format.Type.DATE
+        });
+
+        var timeOfDay = format.format({
+            value: lastSuccDateTime,
+            type: format.Type.TIMEOFDAY
+        });
+
+        lastSuccDateTime = dateFormat + ' ' + timeOfDay;
+
+    	log.debug({
+			title: 'Loaded Last Successful Run Datetime Param',
+			details: lastSuccDateTime
+		});
+
     	var transactionSearchObj = search.create({
     		   type: "transaction",
     		   filters: [
@@ -29,10 +54,9 @@ function(search, record, error, csod) {
                    "AND",
                    ["custbody_adjusted_due_date","isnotempty",""],
                    "AND",
-                   ["status","anyof","CustInvc:A", "CustInvc:D"],
+                   ["status","anyof","CustInvc:A"],
                    "AND",
-                   //@TODO Adjust this when deploying to production
-                   ["lastmodifieddate","onorafter","9/6/2017 11:00 am"]
+                   ["lastmodifieddate","onorafter", lastSuccDateTime]
     		   ],
     		   columns: [
     		      "internalid"
@@ -116,6 +140,33 @@ function(search, record, error, csod) {
     }
 
     function summarize(summary) {
+    	// Write Last Successful Run Datetime
+		var currScript = runtime.getCurrentScript();
+		var deployId = currScript.deploymentId;
+		var scriptId = currScript.id;
+		var currDateTimeFormat = format.format({
+			value: new Date(),
+			type: format.Type.DATETIME
+		});
+
+		log.debug({
+           title: 'Check Script ID',
+           details: scriptId
+        });
+
+		var deploymentInternalId = csod.getScriptInternalId(scriptId, deployId);
+        log.debug({
+            title: 'Check Deployment Internal ID',
+            details: deploymentInternalId
+        });
+
+		record.submitFields({
+			type: record.Type.SCRIPT_DEPLOYMENT,
+			id: deploymentInternalId,
+			values: {
+                custscript_csod_coll_last_succ_datetime: currDateTimeFormat
+			}
+		});
         csod.handleErrorIfAny(summary);
 	}
 

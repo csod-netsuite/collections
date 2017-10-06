@@ -1,5 +1,5 @@
-define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries/CSOD_MR_Collection_Libs.js'],
-    function (search, render, email, record, runtime, csod) {
+define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', './Libraries/CSOD_MR_Collection_Libs.js'],
+    function (search, render, email, record, runtime, format, csod) {
 
     /**
      * Find & Send Collection Letter
@@ -16,6 +16,31 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
          * Entry Points
          */
     var getInputData = function() {
+
+        var currScript = runtime.getCurrentScript();
+        var lastSuccDateTime = currScript.getParameter({name: 'custscript_csod_coll_last_succ_datetime2'});
+
+        if(lastSuccDateTime === '' || lastSuccDateTime === null) {
+            // abort data search if lastSuccDateTime is not defined
+            return;
+        }
+        var dateFormat = format.format({
+            value: lastSuccDateTime,
+            type: format.Type.DATE
+        });
+
+        var timeOfDay = format.format({
+                value: lastSuccDateTime,
+                type: format.Type.TIMEOFDAY
+        });
+
+        lastSuccDateTime = dateFormat + ' ' + timeOfDay;
+
+        log.debug({
+            title: 'Loaded Last Successful Run Datetime Param',
+            details: lastSuccDateTime
+        });
+
         return search.create({
             type: "invoice",
             filters: [
@@ -35,12 +60,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
                 "AND",
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
-                //@TODO Adjust this when deploying to production
-                ["lastmodifieddate","onorafter","9/6/2017 11:00 am"],
-                "AND",
-                ["trandate","onorafter","8/1/2017"],
-                "AND",
-                ["custbody_adjusted_due_date","within","9/1/2017","9/17/2017"]
+                ["lastmodifieddate","onorafter",lastSuccDateTime]
             ],
             columns: [
                 "internalid",
@@ -154,6 +174,28 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', './Libraries
     };
 
     var summarize = function(summary) {
+
+
+        // Write Last Successful Run Datetime
+        var scriptObj = runtime.getCurrentScript();
+        var deployId = scriptObj.deploymentId;
+        var scriptId = scriptObj.id;
+        var currDateTimeFormat = format.format({
+            value: new Date(),
+            type: format.Type.DATETIME
+        });
+
+        var scriptInternalId = csod.getScriptInternalId(scriptId, deployId);
+
+        record.submitFields({
+            type: record.Type.SCRIPT_DEPLOYMENT,
+            id: scriptInternalId,
+            values: {
+                custscript_csod_coll_last_succ_datetime2: currDateTimeFormat
+            }
+        });
+
+        // handle errors
         csod.handleErrorIfAny(summary);
 
         var scriptOpj = runtime.getCurrentScript();

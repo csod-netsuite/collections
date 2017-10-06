@@ -6,15 +6,53 @@
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
   <scriptfile>[/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js]</scriptfile>
+  <scriptcustomfields>
+    <scriptcustomfield scriptid="custscript_csod_coll_last_succ_datetime">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>CSOD Last Successful Run</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete></onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype></selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+  </scriptcustomfields>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_csod_mr_collection_state">
+      <buffersize>32</buffersize>
+      <concurrencylimit>3</concurrencylimit>
+      <custscript_csod_coll_last_succ_datetime>2017-10-05T20:57:55Z</custscript_csod_coll_last_succ_datetime>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
-      <queueids></queueids>
+      <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>
       <status>NOTSCHEDULED</status>
-      <useallqueues>T</useallqueues>
       <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2017-09-19</startdate>
+          <starttime>01:00:00Z</starttime>
+        </single>
+      </recurrence>
     </scriptdeployment>
   </scriptdeployments>
 </mapreducescript>

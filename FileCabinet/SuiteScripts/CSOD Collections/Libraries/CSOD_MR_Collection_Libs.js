@@ -121,6 +121,35 @@ define(['N/error', 'N/search', 'N/file'], function(error, search, file) {
         return fileObj;
     };
 
+    var getScriptInternalId = function(scriptId, deployId) {
+        var internalId = '';
+        var scriptdeploymentSearchObj = search.create({
+            type: "scriptdeployment",
+            filters: [
+                ["scriptid","is",deployId]
+            ],
+            columns: [
+                "internalid"
+            ]
+        });
+
+        if(scriptId) {
+            scriptdeploymentSearchObj.filters.push(search.createFilter({
+                name: 'internalid',
+                join: 'script',
+                operator: search.Operator.ANYOF,
+                values: scriptId
+            }));
+        }
+
+        scriptdeploymentSearchObj.run().each(function(result){
+            // .run().each has a limit of 4,000 results
+            internalId = result.getValue({name: 'internalid'});
+        });
+        return internalId;
+    };
+
+    exports.getScriptInternalId = getScriptInternalId;
     exports.handleErrorIfAny = handleErrorIfAny;
     exports.TEMPATE_ID = TEMPATE_ID;
     exports.searchToCSV = searchToCSV;
