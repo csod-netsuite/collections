@@ -60,10 +60,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                 "AND",
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
-                ["lastmodifieddate","onorafter",lastSuccDateTime],
-                // TODO Delete this
-                "AND",
-                ["customer.internalid","anyof","102423"]
+                ["lastmodifieddate","onorafter",lastSuccDateTime]
             ],
             columns: [
                 "internalid",
