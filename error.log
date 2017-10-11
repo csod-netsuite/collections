@@ -622,3 +622,17 @@ com.netsuite.ide.exception.CliException: Option "-scriptid" must have a value.
 2017-10-05 15:02:31,327 - File: ~/Objects/customscript_csod_mr_send_coll_letters.xml
 2017-10-05 15:02:31,327 - Object: customscript_csod_mr_send_coll_letters.customdeploy_mr_send_collection_sched (scriptdeployment)
 2017-10-05 15:02:31,327 - 2017-10-05 15:02:31 (PST) Installation FAILED (0 minutes 3 seconds)
+2017-10-11 12:59:12,034 - *** ERROR ***
+2017-10-11 12:59:12,035 - 
+2017-10-11 12:59:12,035 - An error occurred during custom object update.
+2017-10-11 12:59:12,035 - Details: Invalid custscript_csod_coll_sum_report_sender reference key [ACCOUNT_SPECIFIC_VALUE].
+2017-10-11 12:59:12,035 - File: ~/Objects/customscript_csod_mr_send_coll_letters.xml
+2017-10-11 12:59:12,035 - Object: customscript_csod_mr_send_coll_letters.customdeploy_mr_send_collection_sched (scriptdeployment)
+2017-10-11 12:59:12,035 - 2017-10-11 12:59:11 (PST) Installation FAILED (0 minutes 3 seconds)
+2017-10-11 13:06:16,292 - *** ERROR ***
+2017-10-11 13:06:16,293 - 
+2017-10-11 13:06:16,293 - An error occurred during custom object update.
+2017-10-11 13:06:16,293 - Details: Invalid custscript_csod_coll_sum_report_sender reference key [ACCOUNT_SPECIFIC_VALUE].
+2017-10-11 13:06:16,293 - File: ~/Objects/customscript_csod_mr_send_coll_letters.xml
+2017-10-11 13:06:16,293 - Object: customscript_csod_mr_send_coll_letters.customdeploy_mr_send_collection_sched (scriptdeployment)
+2017-10-11 13:06:16,293 - 2017-10-11 13:06:16 (PST) Installation FAILED (0 minutes 3 seconds)

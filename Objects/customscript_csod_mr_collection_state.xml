@@ -39,25 +39,26 @@
     <scriptdeployment scriptid="customdeploy_csod_mr_coll_state_sched">
       <buffersize>32</buffersize>
       <concurrencylimit>3</concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime>2017-10-06T15:00:00Z</custscript_csod_coll_last_succ_datetime>
+      <custscript_csod_coll_last_succ_datetime>2017-10-11T19:00:24Z</custscript_csod_coll_last_succ_datetime>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>
-      <status>NOTSCHEDULED</status>
+      <status>SCHEDULED</status>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
-        <single>
-          <repeat></repeat>
-          <startdate>2017-10-07</startdate>
-          <starttime>01:00:00Z</starttime>
-        </single>
+        <everyweekday>
+          <enddate></enddate>
+          <repeat>PT1H</repeat>
+          <startdate>2017-10-08</startdate>
+          <starttime>07:00:00Z</starttime>
+        </everyweekday>
       </recurrence>
     </scriptdeployment>
     <scriptdeployment scriptid="customdeploy_csod_mr_collection_state">
       <buffersize>32</buffersize>
       <concurrencylimit>3</concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime>2017-10-05T20:57:55Z</custscript_csod_coll_last_succ_datetime>
+      <custscript_csod_coll_last_succ_datetime>2017-10-06T21:06:20Z</custscript_csod_coll_last_succ_datetime>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>

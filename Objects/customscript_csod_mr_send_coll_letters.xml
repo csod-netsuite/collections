@@ -92,31 +92,32 @@ Enter email per each row.</help>
   </scriptcustomfields>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_mr_send_collection_sched">
-      <buffersize>64</buffersize>
-      <concurrencylimit>4</concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime2>2017-10-05T14:00:00Z</custscript_csod_coll_last_succ_datetime2>
-      <custscript_csod_coll_sum_report_emails>cyi@csod.com;DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
-      <custscript_csod_coll_sum_report_sender></custscript_csod_coll_sum_report_sender>
+      <buffersize>32</buffersize>
+      <concurrencylimit>3</concurrencylimit>
+      <custscript_csod_coll_last_succ_datetime2>2017-10-10T23:37:46Z</custscript_csod_coll_last_succ_datetime2>
+      <custscript_csod_coll_sum_report_emails>cyi@csod.com;bcarlson@csod.com;DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
+      <custscript_csod_coll_sum_report_sender>105102</custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>
-      <status>NOTSCHEDULED</status>
+      <status>SCHEDULED</status>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
-        <single>
+        <everyweekday>
+          <enddate></enddate>
           <repeat></repeat>
-          <startdate>2017-08-25</startdate>
-          <starttime>01:00:00Z</starttime>
-        </single>
+          <startdate>2017-10-10</startdate>
+          <starttime>23:00:00Z</starttime>
+        </everyweekday>
       </recurrence>
     </scriptdeployment>
     <scriptdeployment scriptid="customdeploy_csod_mr_send_coll_letters">
       <buffersize>32</buffersize>
-      <concurrencylimit></concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime2></custscript_csod_coll_last_succ_datetime2>
-      <custscript_csod_coll_sum_report_emails>DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
-      <custscript_csod_coll_sum_report_sender></custscript_csod_coll_sum_report_sender>
+      <concurrencylimit>3</concurrencylimit>
+      <custscript_csod_coll_last_succ_datetime2>2017-10-06T22:09:51Z</custscript_csod_coll_last_succ_datetime2>
+      <custscript_csod_coll_sum_report_emails>cyi@csod.com;bcarlson@csod.com</custscript_csod_coll_sum_report_emails>
+      <custscript_csod_coll_sum_report_sender>105102</custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>

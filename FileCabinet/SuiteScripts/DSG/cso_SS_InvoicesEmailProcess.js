@@ -579,7 +579,8 @@ function OnBeforeLoad_AddToPDFQueue(type, form, request)
 {
     if (type == "view")
     {
-        if (nlapiGetFieldValue('custbody_email_delivery_status') != '2' && nlapiGetFieldValue('custbody_do_not_email') != 'T' && nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T')
+        if (nlapiGetFieldValue('custbody_email_delivery_status') != '2' && nlapiGetFieldValue('custbody_do_not_email') != 'T' && nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T' &&
+            nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T')
         {
             //form.addButton("custpage_addtoqueue", "Add to PDF/Email Queue", "nlapiSubmitField('invoice', " + invoiceID + ", 'custbody_queueforprintprocess', 'T', false); alert('Invoice had been added to PDF/Email Automation queue.');");
         	form.addButton("custpage_addtoqueue", "Add to Email Queue", "nlapiSubmitField('invoice', " + nlapiGetRecordId() + ", 'custbody_email_delivery_status', '2', false); alert('Invoice had been added to PDF/Email Automation queue.'); document.location.reload(true);");

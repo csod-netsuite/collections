@@ -71,12 +71,32 @@ function(moment, format, record) {
 		
 		var newRec = context.newRecord;
 		var oldRec = context.oldRecord;
+
+        // UPDATE after release Oct 11th, 2017
+
+        // If custbody_record_emailed_datetime is not empty and custbody_adjusted_due_date is empty
+        // Fill out Invoice Sent Date
+        var emailedDateTime = newRec.getValue({ fieldId: 'custbody_record_emailed_datetime' });
+
+        if(emailedDateTime && !oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) ) {
+            log.debug({
+                title: 'Check emailedDateTime',
+                details: 'Setting new value : ' + emailedDateTime
+            });
+            newRec.setValue({
+                fieldId: 'custbody_record_emailed_date',
+                value: new Date(emailedDateTime)
+            });
+        }
+
+        var invoiceSentDate = oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || newRec.getValue({ fieldId: 'custbody_record_emailed_date' });
 		var origDueDate = oldRec.getValue({ fieldId: 'duedate' }) || newRec.getValue({ fieldId: 'duedate' });
-		var invoiceSentDate = oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || newRec.getValue({ fieldId: 'custbody_record_emailed_date' });
 		var oldAdjDueDate = oldRec.getValue({ fieldId: 'custbody_adjusted_due_date' });
+
 
         // Only populate if Adjusted New Date is not populated
 		if((invoiceSentDate && origDueDate) && !oldAdjDueDate) {
+
 			var dateDiff = new CalcDate(invoiceSentDate).getMomentDate().getDiff(origDueDate);
 			
 			var adjustedDueDate;
@@ -105,6 +125,9 @@ function(moment, format, record) {
 			});
 
 		}
+
+
+
 
 	}
 
