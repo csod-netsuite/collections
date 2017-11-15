@@ -78,6 +78,7 @@ function(search, record, error, runtime, format, csod) {
             details: context.key
         });
 
+		// amountpaid is not needed for now (Updated 10/26/2017)
         var lookupObj = search.lookupFields({
             type: search.Type.INVOICE,
             id: context.key,
