@@ -60,7 +60,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                 "AND",
                 ["custbody_contingent_due_check", "is", "F"],
                 "AND",
-                ["lastmodifieddate","onorafter",lastSuccDateTime]
+                ["custbody_last_notice_sent","anyof","@NONE@","1"]
             ],
             columns: [
                 "internalid",
@@ -75,7 +75,6 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                 "custbody_last_notice_sent"
             ]
         });
-
     };
 
     var map = function(context) {
@@ -174,7 +173,6 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
     };
 
     var summarize = function(summary) {
-
 
         // Write Last Successful Run Datetime
         var scriptObj = runtime.getCurrentScript();
