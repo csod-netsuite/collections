@@ -73,11 +73,21 @@ function service(request, response)
 		var termFld = form.addField('custpage_term', 'select', 'Terms', 'term');
 		termFld.setDefaultValue(rec.getFieldValue('terms'));
 		
+		//*** CSOD Added 2/22/2017
+		if(recType == 'salesorder') {
+			var orderTypeFld = form.addField('custpage_order_type', 'select', 'Order Type', 'customlist_so_order_type');
+			if(rec.getFieldValue('custbody_so_order_type')) {
+				orderTypeFld.setDefaultValue(rec.getFieldValue('custbody_so_order_type'));
+			}
+			
+		}
+		
 		var poFld = form.addField('custpage_po', 'text', 'PO #');
 		poFld.setDefaultValue(rec.getFieldValue('otherrefnum'));
 		
 		var memoFld = form.addField('custpage_memo', 'text', 'Memo');
 		memoFld.setDefaultValue(rec.getFieldValue('memo'));
+		
       	
       	var invOnHoldfld = form.addField('custpage_csod_add_grace_period', 'checkbox', 'Collections Hold');
 		invOnHoldfld.setDefaultValue(rec.getFieldValue('custbody_csod_add_grace_period'));
@@ -120,16 +130,35 @@ function service(request, response)
 		var poReqDateFld = form.addField('custpage_po_requested_date', 'date', 'PO Request Date');
 		poReqDateFld.setDefaultValue(rec.getFieldValue('custbody_po_requested_date'));
 		
-		var cmrrTotalFld = form.addField('custpage_cmrr_total_value', 'float', 'Total CMRR Value Input');
-		cmrrTotalFld.setDefaultValue(rec.getFieldValue('custbody_manual_total_cmrr_value'));
+		if(recType == 'salesorder') {
+			var arrTotalValFld = form.addField('custpage_arr_manual_total', 'float', 'ARR GROSS OVERRIDE VALUE');
+			if(rec.getFieldValue('custbodycustbody_manual_total_arr_val')) {
+				arrTotalValFld.setDefaultValue(rec.getFieldValue('custbodycustbody_manual_total_arr_val'));
+			}
+		}
 		
-		var cmrrExemptFld = form.addField('custpage_cmrr_exempt', 'checkbox', 'CMRR Exempt');
+		var cmrrTotalFld = form.addField('custpage_cmrr_total_value', 'float', 'ARR NET OVERRIDE VALUE');
+		cmrrTotalFld.setDefaultValue(rec.getFieldValue('custbody_manual_net_arr_value'));
+		
+		var cmrrExemptFld = form.addField('custpage_cmrr_exempt', 'checkbox', 'ARR Exempt');
 		cmrrExemptFld.setDefaultValue(rec.getFieldValue('custbody_cmrr_exempt_'));
+		
+		// CSOD Added to update contact info 2/27/2018
+		var contactNameFld = form.addField('custpage_contact_name', 'text', 'Billing Contact Name');
+		contactNameFld.setDefaultValue(rec.getFieldValue('custbody_csod_billing_contact_name'));
+		
+		var contactEmailFld = form.addField('custpage_contact_email', 'email', 'Billing Contact Email');
+		contactEmailFld.setDefaultValue(rec.getFieldValue('custbody_csod_billing_contact_email'));
+		
+		var contactPhoneFld = form.addField('custpage_contact_phone', 'phone', 'Billing Contact Phone');
+		contactPhoneFld.setDefaultValue(rec.getFieldValue('custbody_csod_billing_contact_phone'));
 		
 		//Adding Addresses list from Customer
 		var addrTab = form.addTab('custpage_address_tab', 'Address');
 		var filters = new Array();
 		filters.push(new nlobjSearchFilter('internalid', null, 'anyof', entity));
+		
+		
 		
 		var columns = new Array();
 		columns.push(new nlobjSearchColumn('addressinternalid'));
@@ -282,11 +311,19 @@ function service(request, response)
 		var doNotSendCollecEmail = request.getParameter('custpage_do_not_send_collec_email') || 'F';
 		var doNotAddQueue = request.getParameter('custpage_do_not_add_queue');
 		var poReqDate = request.getParameter('custpage_po_requested_date');
+//***CSOD Added Order Type		
+		var orderType = request.getParameter('custpage_order_type');
+		var billContactName = request.getParameter('custpage_contact_name');
+		var billContactEmail = request.getParameter('custpage_contact_email');
+		var billContactPhone = request.getParameter('custpage_contact_phone');
+		
+		
 		
 //***CSOD CMRR
 		var cmrrTotalValue = request.getParameter('custpage_cmrr_total_value');
 		var cmrrExempt = request.getParameter('custpage_cmrr_exempt');
-
+//***CSOD ARR Total
+		var arrTotalValue = request.getParameter('custpage_arr_manual_total');
 		nlapiLogExecution("DEBUG", "Checking doNotSendCollecEmail param", doNotSendCollecEmail);
 		
 		var rec = nlapiLoadRecord(recType, recId);
@@ -299,9 +336,11 @@ function service(request, response)
 
 		nlapiLogExecution("DEBUG", "Checking values for rec.getFieldValue('custbody_no_overdue_notices')", rec.getFieldValue('custbody_no_overdue_notices'));
 		
+	
 		rec.setFieldValue('terms', term == null ? '' : term);
 		rec.setFieldValue('otherrefnum', po == null ? '' : po);
 		rec.setFieldValue('memo', memo == null ? '' : memo);
+		rec.setFieldValue('custbody_so_order_type', orderType == null ? '' : orderType);
       	rec.setFieldValue('custbody_csod_add_grace_period', onhold == null ? '' : onhold);
       	rec.setFieldValue('custbody_record_emailed_date', invsentdate == null ? '' : invsentdate);
 //***DSG Case 44985 start
@@ -343,7 +382,13 @@ function service(request, response)
 		
 // CSOD CMRR
 		rec.setFieldValue('custbody_cmrr_exempt_', cmrrExempt == 'T' ? 'T' : 'F');
-		rec.setFieldValue('custbody_manual_total_cmrr_value', cmrrTotalValue == null ? '' : cmrrTotalValue);
+		rec.setFieldValue('custbody_manual_net_arr_value', cmrrTotalValue == null ? '' : cmrrTotalValue);
+// CSOD ARR Total
+		rec.setFieldValue('custbodycustbody_manual_total_arr_val', arrTotalValue == null ? '' : arrTotalValue);
+		
+		rec.setFieldValue('custbody_csod_billing_contact_name', billContactName == null ? '' : billContactName);
+		rec.setFieldValue('custbody_csod_billing_contact_email', billContactEmail == null ? '' : billContactEmail);
+		rec.setFieldValue('custbody_csod_billing_contact_phone', billContactPhone == null ? '' : billContactPhone);
 		
 		var count = request.getLineItemCount('custlist');
 		for(var line=1; line <= count; line++)

@@ -50,14 +50,21 @@ function showInvToSelect(request, response)
 		//Add sublit to form
 		var invSubList = form.addSubList('custpage_inv_list', 'list', 'Invoices', 'main');
 		invSubList.addField('custpage_inv_list_select', 'checkbox', 'Select');
-		(invSubList.addField('custpage_inv_list_no_select', 'checkbox', 'DO NOT ADD TO QUEUE')).setDisplayType('inline');
+		invSubList.addField('custpage_inv_list_no_select', 'checkbox', 'DO NOT ADD TO QUEUE').setDisplayType('inline');
+        invSubList.addField('custpage_inv_list_inv_exempt', 'checkbox', 'Invoice Que Exempt').setDisplayType('inline');
 		(invSubList.addField('custpage_inv_list_id', 'text', 'Inv Id')).setDisplayType('hidden');
+		(invSubList.addField('custpage_inv_list_date', 'date', 'Invoice Date')).setDisplayType('inline');
 		(invSubList.addField('custpage_inv_list_invnum', 'text', 'Number')).setDisplayType('inline');
 		(invSubList.addField('custpage_inv_list_customer', 'select', 'Name', 'customer')).setDisplayType('inline');
 		(invSubList.addField('custpage_inv_list_appr_status', 'text', 'Approval Status')).setDisplayType('inline');
 		invSubList.addField('custpage_inv_list_status', 'text', 'Status');
 		(invSubList.addField('custpage_inv_list_createdby', 'select', 'Created By', 'employee')).setDisplayType('inline');
 		(invSubList.addField('custpage_inv_list_approvedby', 'select', 'Approved By', 'employee')).setDisplayType('inline');
+		invSubList.addField('custpage_inv_list_collector', 'select', 'Collector', 'employee').setDisplayType('inline');
+		
+		// Added for Case# 11976
+		invSubList.addField('custpage_inv_list_email_sent_date', 'date', 'Invoice Sent Date').setDisplayType('inline');
+		
 		invSubList.addField('custpage_inv_list_amt', 'currency', 'Amount');
 		invSubList.addMarkAllButtons();
 				
@@ -75,6 +82,12 @@ function showInvToSelect(request, response)
 			lineItem['custpage_inv_list_approvedby'] = invList[intPos].getValue('custbody_inv_approved_by');
 			lineItem['custpage_inv_list_no_select'] = invList[intPos].getValue('custbody_do_not_add_queue');
 			lineItem['custpage_inv_list_appr_status'] = invList[intPos].getText('approvalstatus');
+			lineItem['custpage_inv_list_collector'] = invList[intPos].getValue('custentity9', 'customerMain');
+			lineItem['custpage_inv_list_date'] = invList[intPos].getValue('trandate');
+			// Added for Case# 11976
+			lineItem['custpage_inv_list_email_sent_date'] = invList[intPos].getValue('custbody_record_emailed_date');
+			// Added for Case#
+			lineItem['custpage_inv_list_inv_exempt'] = invList[intPos].getValue('custentity_inv_que_exempt', 'customerMain');
 			lineItems[lineItems.length] = lineItem;
 		}
 		
@@ -292,7 +305,13 @@ function releaseLockToSuiteApp()
 
 function emailInvoice(invId)
 {
-	var invFlds = nlapiLookupField('invoice', invId, ['entity', 'subsidiary', 'tranid', 'custbody_record_emailed_datetime', 'custbody_email_delivery_status']), errorFlag = false;
+
+	var invFlds = nlapiLookupField('invoice', invId, ['entity', 'subsidiary', 'tranid', 'custbody_record_emailed_datetime', 
+	                                                  'custbody_email_delivery_status', 'custbody_csod_billing_contact_email',
+	                                                  'custbody_csod_second_billing_email']); 
+	
+	nlapiLogExecution('AUDIT', 'inside func emailInvoice', 'invFlds = ' + invFlds);
+	var errorFlag = false;
 	
 	if(invFlds['custbody_email_delivery_status'] == '3')
 		return errorFlag;
@@ -300,178 +319,212 @@ function emailInvoice(invId)
 	try
 	{
 		var pdfFile = GetInvoicePDF(invId);
+		
 		if (pdfFile != null)
 		{
 			try
 			{
+				nlapiLogExecution('AUDIT', 'after GetInvoicePDF');
 				// Get email addresses to send to from contacts associated to invoice customer
 				var customer = invFlds['entity'];
-				var invoiceRecipients = GetContactsFromCustomer(customer);
-				if (invoiceRecipients != null && invoiceRecipients.length > 0)
-				{
-					var primaryRecipients = GetPrimaryContactsFromRecipients(invoiceRecipients);
-					if (primaryRecipients.length == 1)
+				var invoiceSpecificRecipient = invFlds['custbody_csod_billing_contact_email'];
+				var invoiceRecipients = GetContactsFromCustomer(customer);;
+				var email = '';
+				var cc = [];
+				
+				
+				if(invoiceSpecificRecipient) {
+					email = invoiceSpecificRecipient;
+					
+					var invoiceSpecificCopy = invFlds['custbody_csod_second_billing_email'];
+					if(invoiceSpecificCopy && (invoiceSpecificCopy != invoiceSpecificRecipient)) {
+						cc.push(invoiceSpecificCopy);
+					}
+					
+				} else {
+					
+					if (invoiceRecipients != null && invoiceRecipients.length > 0)
 					{
-						var email = primaryRecipients[0].Email;
-						if (email != null && email != '')
+						var primaryRecipients = GetPrimaryContactsFromRecipients(invoiceRecipients);
+						if (primaryRecipients.length == 1)
 						{
-							var cc = null;
-							var ccAddresses = GetCopyContactsStringArray(invoiceRecipients);
-							if (ccAddresses != null && ccAddresses.length > 0)
-								cc = ccAddresses;
+							// if invoiceSpecificRecipient is not faulty send email to invoiceSpecificRecipient 
+							email = primaryRecipients[0].Email;
 							
-							try
-							{
-								var subsidiary = invFlds['subsidiary'];
-								if (subsidiary != null && subsidiary != '')
-								{
-									var emailTemplateID = emailTemplateIDUS;
-									switch (subsidiary)
-									{
-										case '2':
-											emailTemplateID = emailTemplateIDUS;
-											break;
-										case '4':
-											emailTemplateID = emailTemplateIDUK;
-											break;
-										case '15':
-											emailTemplateID = emailTemplateIDCyberU;
-											break;
-										case '18':
-											emailTemplateID = emailTemplateIDSonar6;
-											break;
-									}
-									
-									//var mergeRecord = nlapiMergeRecord(emailTemplateID, 'invoice', invId);
-									
-									var emailMerger = nlapiCreateEmailMerger(emailTemplateID);
-									emailMerger.setTransaction(invId);
-									var mergeResult = emailMerger.merge();
-									
-									//if (mergeRecord != null)
-									if (mergeResult != null)
-									{
-										try
-										{
-											var invoiceInternalIDs = new Object();
-											invoiceInternalIDs['transaction'] = invId;
-											
-											var filters = new Array();
-											filters.push(new nlobjSearchFilter('internalid', null, 'anyof', customer));
-											
-											var columns = new Array();
-											columns.push(new nlobjSearchColumn('custentity_finance_responsible'));
-											columns.push(new nlobjSearchColumn('email', 'custentityaccount_managers'));
-											
-											var results = nlapiSearchRecord('customer', null, filters, columns);
-											if(results != null && results != '')
-											{
-												var acctMgrEmail = results[0].getValue('email', 'custentityaccount_managers');
-												if(acctMgrEmail != null && acctMgrEmail != '')
-												{
-													if(cc == null)
-														cc = acctMgrEmail;
-													else
-														cc[cc.length] = acctMgrEmail;
-												}
-												
-												var tempEmailFrom = results[0].getValue('custentity_finance_responsible');
-												if(tempEmailFrom != null && tempEmailFrom != '')
-													emailFrom = tempEmailFrom;
-												//nlapiSendEmail(emailFrom, email, mergeRecord.getName(), mergeRecord.getValue(), cc, emailBCC, invoiceInternalIDs, pdfFile);
-												nlapiSendEmail(emailFrom, email, mergeResult.getSubject(), mergeResult.getBody(), cc, emailBCC, invoiceInternalIDs, pdfFile);
-												emailSent = true;
-												
-												// Set print status to Email Sent, along with when sent and by whom
-												var fields = new Array(), values = new Array();
-												fields.push('custbody_email_delivery_status');
-												values.push('3');
-												
-												fields.push('custbody_record_emailed');
-												values.push('T');
-												
-												if(invFlds['custbody_record_emailed_datetime'] == '' || invFlds['custbody_record_emailed_datetime'] == null)
-												{
-													fields.push('custbody_record_emailed_date');
-													fields.push('custbody_record_emailed_datetime');
-													
-													var date = new Date();						
-													var dateStr = nlapiDateToString(new Date(), 'date');
-													// push date format 
-													values.push(dateStr);
-													
-													var hours = date.getHours();
-													var amOrpm = 'am';
-													if(hours >= 12)
-														amOrpm = 'pm';
-													if(hours == 0)
-														hours = 12;
-													hours = hours > 12 ? (hours - 12) : hours;
-													dateStr += ' ' + hours + ':' + date.getMinutes() + ':' + date.getSeconds() + ' ' + amOrpm;
-													nlapiLogExecution('Debug', 'Checking', 'Date: ' + dateStr);
-													// push datetime format
-													values.push(dateStr);
-												}
-												nlapiSubmitField('invoice', invId, fields, values, false);
-												WriteNote(invId, invFlds['tranid'], 'Finished Sending Email & Updated Deliver Status to Email Delivered');
-											}
-											else
-											{
-												errorFlag = true;
-												nlapiLogExecution('Error', 'Customer Not Found', "An unspecified error was thrown while trying to get Account Manager, Finance Emp. Responsible for Account field's values from Customer on Invoice " + invFlds['tranid']);
-												WriteNote(invId, invFlds['tranid'], "An unspecified error was thrown while trying to get Account Manager, Finance Emp. Respobsible for Account field's values from Customer");
-											}
-										}
-										catch (sendEmailException)
-										{
-											errorFlag = true;
-											var erMsg = nlapiCreateError(sendEmailException);
-											nlapiLogExecution('Error', 'Associate File Error', 'An error was thrown while trying to email the PDF file for Invoice ' + invFlds['tranid'] + ': ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
-											WriteNote(invId, invFlds['tranid'], 'An error was thrown while trying to email the PDF file: ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
-										}
-									} //if (mergeRecord != null)
-									else
-									{
-										errorFlag = true;
-										nlapiLogExecution('Error', 'Email Template Merge Error', 'An unspecified error was thrown while trying to merge the invoice with the specified email template for Invoice ' + invFlds['tranid']);
-										WriteNote(invId, invFlds['tranid'], 'An unspecified error was thrown while trying to merge the invoice with the specified email template');
-									}
-								} //if (!Utils.IsNullOrEmpty(subsidiary))
-								else
-								{
-									errorFlag = true;
-									nlapiLogExecution('Error', 'Subsidiary is Missing', 'No subsidiary on associated Invoice ' + invFlds['tranid']);
-									WriteNote(invId, invFlds['tranid'], 'No subsidiary on associated Invoice');
-								}
-							}
-							catch (mergeEmailException)
-							{
-								errorFlag = true;
-								var erMsg = nlapiCreateError(mergeEmailException);
-								nlapiLogExecution('Error', 'Email Template Merge Exception', 'An error was thrown while trying to merge the invoice with the specified email template for Invoice ' + invFlds['tranid'] + ': ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
-								WriteNote(invId, invFlds['tranid'], 'An error was thrown while trying to merge the invoice with the specified email template: ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
-							}
-						} //if (!Utils.IsNullOrEmpty(email))
+						} //if (primaryRecipients.length == 1)
 						else
 						{
 							errorFlag = true;
-							nlapiLogExecution('Error', 'Email is Missing', 'No email address on associated invoice record ' + invFlds['tranid']);
-							WriteNote(invId, invFlds['tranid'], 'No email address on associated invoice record');
+							nlapiLogExecution('Error', 'Primary Contact Error', 'The # of primary contacts for the customer associated to the Invoice ' + invFlds['tranid'] + ' is invalid.  There should only be a single primary contact.');
+							WriteNote(invId, invFlds['tranid'], 'The # of primary contacts for the customer associated to the invoice is invalid.  There should only be a single primary contact.');
 						}
-					} //if (primaryRecipients.length == 1)
+					} //if (invoiceRecipients != null && invoiceRecipients.length > 0)
 					else
 					{
 						errorFlag = true;
-						nlapiLogExecution('Error', 'Primary Contact Error', 'The # of primary contacts for the customer associated to the Invoice ' + invFlds['tranid'] + ' is invalid.  There should only be a single primary contact.');
-						WriteNote(invId, invFlds['tranid'], 'The # of primary contacts for the customer associated to the invoice is invalid.  There should only be a single primary contact.');
+						nlapiLogExecution('Error', 'No Contacts', 'No contacts on associated customer for Invoice ' + invFlds['tranid']);
+						WriteNote(invId, invFlds['tranid'], 'No contacts on associated customer for Invoice');
 					}
-				} //if (invoiceRecipients != null && invoiceRecipients.length > 0)
-				else
+				}
+				
+				try
+				{
+					if (email != null && email != '') {
+						
+						if(invoiceRecipients != null && invoiceRecipients.length > 0 && cc.length == 0) {
+							var ccAddresses = GetCopyContactsStringArray(invoiceRecipients);
+							if (ccAddresses != null && ccAddresses.length > 0)
+								cc = ccAddresses;
+						}
+
+					} else {
+						errorFlag = true;
+						nlapiLogExecution('Error', 'Email is Missing', 'No email address on associated invoice record ' + invFlds['tranid']);
+						WriteNote(invId, invFlds['tranid'], 'No email address on associated invoice record');
+					}
+					var subsidiary = invFlds['subsidiary'];
+					if (subsidiary != null && subsidiary != '') {
+						var emailTemplateID = emailTemplateIDUS;
+						switch (subsidiary)
+						{
+							case '2':
+								emailTemplateID = emailTemplateIDUS;
+								break;
+							case '4':
+								emailTemplateID = emailTemplateIDUK;
+								break;
+							case '15':
+								emailTemplateID = emailTemplateIDCyberU;
+								break;
+							case '18':
+								emailTemplateID = emailTemplateIDSonar6;
+								break;
+						}
+						
+						//var mergeRecord = nlapiMergeRecord(emailTemplateID, 'invoice', invId);
+						
+						nlapiLogExecution('DEBUG', 'emailTemplateId = ' + emailTemplateID);
+						
+						var emailMerger = nlapiCreateEmailMerger(emailTemplateID);
+						emailMerger.setTransaction(invId);
+						var mergeResult = emailMerger.merge();
+						
+						//if (mergeRecord != null)
+						if (mergeResult != null)
+						{
+							try
+							{
+								var invoiceInternalIDs = new Object();
+								invoiceInternalIDs['transaction'] = invId;
+								
+								var filters = new Array();
+								filters.push(new nlobjSearchFilter('internalid', null, 'anyof', customer));
+								
+								var columns = new Array();
+								
+								// BC Swiched From Finance Responsible to custentity9
+								columns.push(new nlobjSearchColumn('custentity9'));
+								columns.push(new nlobjSearchColumn('email', 'custentityaccount_managers'));
+								
+								var results = nlapiSearchRecord('customer', null, filters, columns);
+								if(results != null && results != '')
+								{
+									var acctMgrEmail = results[0].getValue('email', 'custentityaccount_managers');
+									if(acctMgrEmail != null && acctMgrEmail != '')
+									{
+										if(cc == null)
+											cc = [acctMgrEmail];
+										else
+											cc[cc.length] = acctMgrEmail;
+									}
+									
+									// BC Swiched From Finance Responsible to custentity9
+									var tempEmailFrom = results[0].getValue('custentity9');
+									if(tempEmailFrom != null && tempEmailFrom != '') {
+										emailFrom = tempEmailFrom;
+										emailFromEmailAddr = nlapiLookupField('employee', tempEmailFrom, 'email');
+										if(cc){
+											cc.push(emailFromEmailAddr);
+										} else {
+											cc = [emailFromEmailAddr];
+										}
+											
+									}
+									
+									nlapiLogExecution('DEBUG', 'CC List - ', cc);
+									
+									//nlapiSendEmail(emailFrom, email, mergeRecord.getName(), mergeRecord.getValue(), cc, emailBCC, invoiceInternalIDs, pdfFile);
+									nlapiSendEmail(emailFrom, email, mergeResult.getSubject(), mergeResult.getBody(), cc, emailBCC, invoiceInternalIDs, pdfFile);
+									emailSent = true;
+									
+									// Set print status to Email Sent, along with when sent and by whom
+									var fields = new Array(), values = new Array();
+									fields.push('custbody_email_delivery_status');
+									values.push('3');
+									
+									fields.push('custbody_record_emailed');
+									values.push('T');
+									
+									if(invFlds['custbody_record_emailed_datetime'] == '' || invFlds['custbody_record_emailed_datetime'] == null)
+									{
+										fields.push('custbody_record_emailed_date');
+										fields.push('custbody_record_emailed_datetime');
+										
+										var date = new Date();						
+										var dateStr = nlapiDateToString(new Date(), 'date');
+										// push date format 
+										values.push(dateStr);
+										
+										var hours = date.getHours();
+										var amOrpm = 'am';
+										if(hours >= 12)
+											amOrpm = 'pm';
+										if(hours == 0)
+											hours = 12;
+										hours = hours > 12 ? (hours - 12) : hours;
+										dateStr += ' ' + hours + ':' + date.getMinutes() + ':' + date.getSeconds() + ' ' + amOrpm;
+										nlapiLogExecution('Debug', 'Checking', 'Date: ' + dateStr);
+										// push datetime format
+										values.push(dateStr);
+									}
+									nlapiSubmitField('invoice', invId, fields, values, false);
+									WriteNote(invId, invFlds['tranid'], 'Finished Sending Email & Updated Deliver Status to Email Delivered');
+								}
+								else
+								{
+									errorFlag = true;
+									nlapiLogExecution('Error', 'Customer Not Found', "An unspecified error was thrown while trying to get Account Manager, Finance Emp. Responsible for Account field's values from Customer on Invoice " + invFlds['tranid']);
+									WriteNote(invId, invFlds['tranid'], "An unspecified error was thrown while trying to get Account Manager, Finance Emp. Respobsible for Account field's values from Customer");
+								}
+							}
+							catch (sendEmailException)
+							{
+								errorFlag = true;
+								var erMsg = nlapiCreateError(sendEmailException);
+								nlapiLogExecution('Error', 'Associate File Error', 'An error was thrown while trying to email the PDF file for Invoice ' + invFlds['tranid'] + ': ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
+								WriteNote(invId, invFlds['tranid'], 'An error was thrown while trying to email the PDF file: ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
+							}
+						} //if (mergeRecord != null)
+						else
+						{
+							errorFlag = true;
+							nlapiLogExecution('Error', 'Email Template Merge Error', 'An unspecified error was thrown while trying to merge the invoice with the specified email template for Invoice ' + invFlds['tranid']);
+							WriteNote(invId, invFlds['tranid'], 'An unspecified error was thrown while trying to merge the invoice with the specified email template');
+						}
+					} else {
+						errorFlag = true;
+						nlapiLogExecution('Error', 'Subsidiary is Missing', 'No subsidiary on associated Invoice ' + invFlds['tranid']);
+						WriteNote(invId, invFlds['tranid'], 'No subsidiary on associated Invoice');
+					}
+				}
+				catch (mergeEmailException)
 				{
 					errorFlag = true;
-					nlapiLogExecution('Error', 'No Contacts', 'No contacts on associated customer for Invoice ' + invFlds['tranid']);
-					WriteNote(invId, invFlds['tranid'], 'No contacts on associated customer for Invoice');
+					var erMsg = nlapiCreateError(mergeEmailException);
+					nlapiLogExecution('Error', 'Email Template Merge Exception', 'An error was thrown while trying to merge the invoice with the specified email template for Invoice ' + invFlds['tranid'] + ': ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
+					WriteNote(invId, invFlds['tranid'], 'An error was thrown while trying to merge the invoice with the specified email template: ' + (erMsg == null ? 'UNEXPECTED_ERROR' : erMsg.getDetails()));
 				}
+				
 			}
 			catch (getEmailException)
 			{
@@ -498,6 +551,9 @@ function GetInvoicePDF(invId, folder, isConsolidated)
 	var type = 'TRANSACTION';
 	var format = 'PDF';
 	var pdfFile = nlapiPrintRecord(type, invId, format, null);
+	
+	nlapiLogExecution('AUDIT', 'inside GetInvoicePDF');
+	
 	return pdfFile;
 }
 
@@ -525,6 +581,8 @@ function GetContactsFromCustomer(customer)
 			invoiceRecipients.push(invoiceRecipient);
 		}
 	}
+	
+	nlapiLogExecution('DEBUG', 'inside GetContactsFromCustomer', JSON.stringify(invoiceRecipients));
 
 	return invoiceRecipients;
 }
@@ -579,8 +637,8 @@ function OnBeforeLoad_AddToPDFQueue(type, form, request)
 {
     if (type == "view")
     {
-        if (nlapiGetFieldValue('custbody_email_delivery_status') != '2' && nlapiGetFieldValue('custbody_do_not_email') != 'T' && nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T' &&
-            nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T')
+        if (nlapiGetFieldValue('custbody_email_delivery_status') != '2' && nlapiGetFieldValue('custbody_do_not_email') != 'T' && nlapiGetFieldValue('custbody_csod_add_grace_period') != 'T' 
+        	&& nlapiGetFieldValue('custbody_do_not_add_queue') != 'T')
         {
             //form.addButton("custpage_addtoqueue", "Add to PDF/Email Queue", "nlapiSubmitField('invoice', " + invoiceID + ", 'custbody_queueforprintprocess', 'T', false); alert('Invoice had been added to PDF/Email Automation queue.');");
         	form.addButton("custpage_addtoqueue", "Add to Email Queue", "nlapiSubmitField('invoice', " + nlapiGetRecordId() + ", 'custbody_email_delivery_status', '2', false); alert('Invoice had been added to PDF/Email Automation queue.'); document.location.reload(true);");

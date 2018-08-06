@@ -72,7 +72,9 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                     formula: "FLOOR({today}-{custbody_adjusted_due_date}-NVL({custbody_csod_grace_period_days_onhold}, 0))"
                 }),
                 "custbody_csod_coll_state",
-                "custbody_last_notice_sent"
+                "custbody_last_notice_sent",
+                "custbody_csod_billing_contact_email",
+                "custbody_csod_second_billing_email"
             ]
         });
     };
@@ -97,13 +99,27 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
         var daysOverDue = invoice.values.formulanumeric;
         var collectionStatus = invoice.values.custbody_csod_coll_state.value;
         var lastNoticeType = invoice.values.custbody_last_notice_sent.value;
+      
+      	var lastNoticeTypeText = invoice.values.custbody_last_notice_sent.text;
         var customerId = invoice.values.entity.value;
+        var invoiceSpecificPrimary = invoice.values.custbody_csod_billing_contact_email;
+        var secondaryInvoiceEmail = invoice.values.custbody_csod_billing_contact_phone;
+      	
+        //BC adding the tranId to log Collection Status TODO
+      	var tranId = invoice.values.tranid;
+      	
+      	//BC Logging the Last notice sent text for the string together of the Collections Status (customer) field
+      	log.debug({
+            title: "Tranid",
+            details: tranId
+        });
 
         // Loading Data from Customer Record
         var custLookup = search.lookupFields({
             type: search.Type.CUSTOMER,
             id: customerId,
-            columns: ['custentity9', 'custentity_primary_language', 'email']
+          //BC Adding Billings rep to lookup fields to include on CC'd emails
+            columns: ['custentity9', 'custentity_primary_language', 'email', 'custentity_finance_responsible']
         });
 
         // get Primary Email and CC list by searching contact record
@@ -116,14 +132,30 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
 
         var employeeId = custLookup.custentity9[0] !== undefined ? custLookup.custentity9[0].value : '';
         var language = custLookup.custentity_primary_language[0] !== undefined ? custLookup.custentity_primary_language[0].value : '1';
-        var recipient = emailObj.primary;
-        var CCs = emailObj.copied;
+      //BC Adding Billings rep to lookup fields to include on CC'd emails
+      	var billingsrep = custLookup.custentity_finance_responsible[0] !== undefined ? custLookup.custentity_finance_responsible[0].value : '';
+        
+        // if invoiceSpecificPrimary is not an empty value, primary recipient is invoiceSpecificPrimary
+        var recipient = invoiceSpecificPrimary || emailObj.primary;
+        
+        var CCs = [];
+        // Send to Invoice Specific CC
+        if(secondaryInvoiceEmail && invoiceSpecificPrimary != secondaryInvoiceEmail){
+        	
+        	CCs.push(secondaryInvoiceEmail);
+        	
+        }
+        
+        if(CCs.length == 0) {
+        	CCs = emailObj.copied;
+        }
 
         invoice.values['collector'] = custLookup.custentity9[0] !== undefined ? custLookup.custentity9[0] : '';
 
         log.debug({
             title: 'Customer Data Lookup',
-            details: 'Email : ' + recipient + ', employeeId : ' + employeeId
+          //BC Adding Billings rep to lookup fields to include on CC'd emails
+          details: 'Email : ' + recipient + ', employeeId : ' + employeeId + ', Biller : ' + billingsrep
         });
 
         // get Template ID
@@ -133,9 +165,20 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
             title: 'TEMPLATE_ID check',
             details: TEMPLATE_ID
         });
-
+		//BC Adding Dates to supress holiday emails
         // if TEMPLATE_ID is empty, email should not send
-        if(TEMPLATE_ID !== '' ) {
+      	var currDateFormat = format.format({
+            value: new Date(),
+            type: format.Type.DATE
+        });
+      	//BC Parsing string to only look for Xmas Eve and Xmas
+      	currDateFormat = currDateFormat.substring(0,5);
+      	log.debug({
+            title: 'Current Date',
+            details: currDateFormat
+        });
+      	//BC Suppressing emails for Xmas Eve and Xmas
+        if(TEMPLATE_ID !== '' && currDateFormat != '12/24' && currDateFormat != '12/25') {
             var mergeResult = mergeEmail(+TEMPLATE_ID, +context.key);
             var invoicePDF = getInvoicePDF(+context.key);
 
@@ -146,14 +189,34 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                     title: "Email Sent Audit",
                     details: "Invoice ID " + context.key + " sent"
                 });
+                
+                // Added 12/19/2017
+                // Attach Sender as CCs
+                CCs.push(employeeId);
+                
+                //BC Adding Billings rep to lookup fields to include on CC'd emails
+              	CCs.push(billingsrep);
 
                 sendCollectionLetter(employeeId, recipient, mergeResult, CCs,
                     invoicePDF, context.key, invoice.values.entity.value);
+              	
+                //BC Logging to determine sending of letters
+              	log.debug({
+	            	title: 'Send Letters Run?',
+	            	details: 'T'
+        		});
 
                 invoice.emailStatus = 'Email Sent';
                 // Update the invoice with updated custbody_last_notice_sent (Last Notice Type)
                 // Email should have been sent out at this point.
-                updateLastNoticeField(lastNoticeType, context.key);
+               var intLastNotice = updateLastNoticeField(lastNoticeType, context.key);
+               log.debug({
+                    title: "Last Notice Int Return",
+                    details: intLastNotice
+                });
+               //BC Adding function to update the Customer's Collections status Date/time field
+               updateCustomerCollStatusField(customerId,intLastNotice,tranId);
+              	
 
 
             } else {
@@ -362,8 +425,12 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
             });
         };
     };
-
+	//BC Requirement 2 update specific date field associated with notice type sent
     var updateLastNoticeField = function(lastNoticeType, invId) {
+      var currDateFormat = format.format({
+            value: new Date(),
+            type: format.Type.DATE
+        });
         var lastNoticeValue = lastNoticeType || '0';
         var newLastNoticeType = '0';
 
@@ -376,18 +443,82 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
         }
 
         if(newLastNoticeType !== '0') {
-            record.submitFields({
-                type: record.Type.INVOICE,
-                id: invId,
-                values: {
-                    custbody_last_notice_sent: newLastNoticeType
-                },
-                options: {
-                    enableSourcing: false,
-                    ignoreMandatoryFields : true
-                }
-            });
+            try {
+              if(newLastNoticeType == '1'){
+               record.submitFields({
+                      type: record.Type.INVOICE,
+                      id: invId,
+                      values: {
+                        custbody_last_notice_sent: newLastNoticeType, custbody_first_notice_date: currDateFormat
+                      },
+                      options: {
+                          enableSourcing: false,
+                          ignoreMandatoryFields: true
+                      }
+                  });
+              }
+              if(newLastNoticeType == '2'){
+               record.submitFields({
+                      type: record.Type.INVOICE,
+                      id: invId,
+                      values: {
+                          custbody_last_notice_sent: newLastNoticeType, custbody_second_notice_date: currDateFormat
+                      },
+                      options: {
+                          enableSourcing: false,
+                          ignoreMandatoryFields: true
+                      }
+                  });
+              }
+            } catch (e) {
+            	log.error({
+            		title: 'ERROR During Submitting Field',
+            		details: e
+            	});
+            	// Notify to chan/bryce (Admins as of 1/18/2018)
+            	email.send({
+            		author: 117473,
+            		recipients: [117473, 105102],
+            		subject: 'Error while submitting custbody_last_notice_sent, Inv ID = ' + invId,
+            		body: e
+            	});
+            }
+          return newLastNoticeType;
         }
+    };
+    
+    //BC Adding function to update the Customer's Collections status Date/time field
+    var updateCustomerCollStatusField = function(customerId,lastNoticeTypeint,tranId) {
+    var lastNoticeTypeText;
+	var currDateTimeFormat = format.format({
+            value: new Date(),
+            type: format.Type.DATETIME
+        });
+      if(lastNoticeTypeint == '1'){
+        lastNoticeTypeText = '1st Past Due Notice';
+      }
+      if(lastNoticeTypeint == '2'){
+        lastNoticeTypeText = '2nd Past Due Notice'
+      }
+		try {
+			record.submitFields({
+				type: record.Type.CUSTOMER,
+				id: customerId,
+				values: {
+					custentity_collections_status: currDateTimeFormat + " " + lastNoticeTypeText +" " + "#"+tranId
+				},
+				options: {
+					enableSourcing: false,
+					ignoreMandatoryFields: true
+				}
+			});
+		}
+       catch (e) {
+			log.error({
+				title: 'ERROR During Submitting Customer Status',
+				details: e
+			});
+		}
     };
 
         /**
@@ -431,6 +562,8 @@ define(['N/search', 'N/render', 'N/email', 'N/record', 'N/runtime', 'N/format', 
                 return true;
             });
         }
+        
+        
 
         return output;
     };

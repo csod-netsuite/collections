@@ -21,6 +21,16 @@
       <runasrole>ADMINISTRATOR</runasrole>
       <status>RELEASED</status>
       <title>CSOD SL Collections Multi Add to Queue</title>
+      <links>
+        <link>
+          <linkcategory>BASICTRANSACTIONSCUSTOM</linkcategory>
+          <linklabel>Multi-Add to Invoicing Queue</linklabel>
+        </link>
+        <link>
+          <linkcategory>ACCOUNTCENTERCUSTOMERSCUSTOM</linkcategory>
+          <linklabel>Multi-Add to Invoicing Queue</linklabel>
+        </link>
+      </links>
     </scriptdeployment>
   </scriptdeployments>
 </suitelet>

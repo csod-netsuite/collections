@@ -13,6 +13,8 @@
  */
 function userEventBeforeSubmit(type)
 {
+	nlapiLogExecution('DEBUG', 'Type check', type);
+	
 	if(type == 'create' || type == 'edit')
 	{
 		var custId = nlapiGetFieldValue('entity');
@@ -27,8 +29,47 @@ function userEventBeforeSubmit(type)
 			custName = 'Customer';
 		nlapiLogExecution('Debug', 'Checking', 'Cust Name - ' + custName);
 		nlapiSetFieldValue('custbody_customer_name', custName);
+		if(type == 'edit') {
+			if(nlapiGetOldRecord().getFieldValue('approvalstatus') == '1' && 
+					nlapiGetNewRecord().getFieldValue('approvalstatus') == '2') {
+				sendToEmailQueue();
+			}  
+		}
+		
+	}
+	
+	if(type == 'approve') {
+		sendToEmailQueue();
+	}
+	
+}
+
+
+// ** Call this function only in beforeSubmit
+function sendToEmailQueue() {
+	
+	// when approved by these roles, queue up the invoice
+	var ALLOWED_APPROVERS = [3, 1038, 1008, 1087, 1088, 1065, 1043, 1027, 1092];
+	var currentRole = +nlapiGetContext().getRole();
+	
+	//nlapiLogExecution('AUDIT', 'Invoice Approved', 'Index of current role' + ALLOWED_APPROVERS.indexOf(currentRole));
+	
+	if(ALLOWED_APPROVERS.indexOf(currentRole) > -1) {
+		var custId = nlapiGetFieldValue('entity');
+		var custRec = nlapiLoadRecord('customer', custId);
+		
+		nlapiLogExecution('AUDIT', 'Email Exempt Check', 'Customer exempt : ' + custRec.getFieldValue('custentity_inv_que_exempt') + ', Invoice exempt : ' +  nlapiGetFieldValue('custbody_do_not_email'));
+		
+		if(custRec.getFieldValue('custentity_inv_que_exempt') != 'T' && nlapiGetFieldValue('custbody_do_not_email') != 'T' 
+			&& nlapiGetFieldValue('custbody_do_not_add_queue') != 'T') {
+			// Put email delivery status to pending
+			nlapiLogExecution('AUDIT', 'Approved Invoice for Email', nlapiGetRecordId() + ', queued for email')
+			nlapiSetFieldValue('custbody_email_delivery_status', '2');
+		}
+
 	}
 }
+
 
 function oneTimeUpdCustomerName()
 {

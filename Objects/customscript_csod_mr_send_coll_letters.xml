@@ -94,9 +94,9 @@ Enter email per each row.</help>
     <scriptdeployment scriptid="customdeploy_mr_send_collection_sched">
       <buffersize>32</buffersize>
       <concurrencylimit>3</concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime2>2017-11-16T00:02:13Z</custscript_csod_coll_last_succ_datetime2>
+      <custscript_csod_coll_last_succ_datetime2>2018-03-10T00:01:04Z</custscript_csod_coll_last_succ_datetime2>
       <custscript_csod_coll_sum_report_emails>cyi@csod.com;bcarlson@csod.com;DLCollections@csod.com</custscript_csod_coll_sum_report_emails>
-      <custscript_csod_coll_sum_report_sender>[ACCOUNT_SPECIFIC_VALUE]</custscript_csod_coll_sum_report_sender>
+      <custscript_csod_coll_sum_report_sender>105102</custscript_csod_coll_sum_report_sender>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
@@ -117,8 +117,8 @@ Enter email per each row.</help>
       <concurrencylimit>3</concurrencylimit>
       <custscript_csod_coll_last_succ_datetime2>2017-10-06T22:09:51Z</custscript_csod_coll_last_succ_datetime2>
       <custscript_csod_coll_sum_report_emails>cyi@csod.com;bcarlson@csod.com</custscript_csod_coll_sum_report_emails>
-      <custscript_csod_coll_sum_report_sender>[ACCOUNT_SPECIFIC_VALUE]</custscript_csod_coll_sum_report_sender>
-      <isdeployed>T</isdeployed>
+      <custscript_csod_coll_sum_report_sender>105102</custscript_csod_coll_sum_report_sender>
+      <isdeployed>F</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>

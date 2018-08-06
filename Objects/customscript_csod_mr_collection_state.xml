@@ -39,7 +39,7 @@
     <scriptdeployment scriptid="customdeploy_csod_mr_coll_state_sched">
       <buffersize>32</buffersize>
       <concurrencylimit>3</concurrencylimit>
-      <custscript_csod_coll_last_succ_datetime>2017-10-11T19:00:24Z</custscript_csod_coll_last_succ_datetime>
+      <custscript_csod_coll_last_succ_datetime>2018-03-12T17:00:32Z</custscript_csod_coll_last_succ_datetime>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>

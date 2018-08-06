@@ -25,30 +25,43 @@ function beforeLoad(type, form, request)
 		
 		var custId = nlapiGetFieldValue('recipient');
 		var tranId = nlapiGetFieldValue('transaction'), invRec = null;
+		var billingContactEmail, secondBillingContactEmail;
 		if(tranId != null && tranId != '')
 		{
 			try{
 				invRec = nlapiLoadRecord('invoice', tranId);
 				custId = invRec.getFieldValue('entity');
+				billingContactEmail = invRec.getFieldValue('custbody_csod_billing_contact_email');
+				secondBillingContactEmail = invRec.getFieldValue('custbody_csod_second_billing_email');
 			}catch(er){
 				return;
 			}
 		}
 		
+		if(billingContactEmail) {
+			nlapiSetFieldValue('recipientemail', billingContactEmail);
+		}
+		if(secondBillingContactEmail) {
+			nlapiSelectNewLineItem("ccbcclist");
+			nlapiSetCurrentLineItemValue("ccbcclist", "email", secondBillingContactEmail, true, true);
+			nlapiSetCurrentLineItemValue("ccbcclist", "cc", "T");
+			nlapiSetCurrentLineItemValue("ccbcclist", "bcc", "F");
+			nlapiCommitLineItem("ccbcclist");
+		}
+        
 		nlapiLogExecution('Debug', 'Checking', 'CustId - ' + custId);
 		if(custId != null && custId != '' && tmplId != '' && tmplId != null && invRec != null)
-			loadDefaultVals(custId, tmplId, nlapiGetFieldValue('transaction'), true);
+			loadDefaultVals(custId, tmplId, tranId, true, billingContactEmail, secondBillingContactEmail);
 		
 		var inlineHtmlFld = form.addField('custpage_customizations_pageload', 'inlinehtml', 'Customizations', null, 'messages');
 		var script = '<script type="text/javascript">\n';
 		script += 'function custOnTmplFldChg() { \n';
 		script += '		var msgUrl = nlapiResolveURL("RECORD", "message");\n';
-		script += '		msgUrl += "?l=T&transaction=" + nlapiGetFieldValue("transaction") + "&entity=" + nlapiGetFieldValue("recipient") + "&templatetype=EMAIL&template=" + nlapiGetFieldValue("template");\n';
+		script += '		msgUrl += "&transaction=" + nlapiGetFieldValue("transaction") + "&entity=" + nlapiGetFieldValue("recipient") + "&templatetype=EMAIL&template=" + nlapiGetFieldValue("template");\n';
 		script += '		setWindowChanged(window, false);\n';
 		script += '		window.location = msgUrl;\n';
 		script += '}\n';
-		script += "var currOnChgFunc = document.getElementById('hddn_template3').onchange;\n";
-		script += "document.getElementById('hddn_template3').onchange = function() { custOnTmplFldChg(); return true; }\n";
+		script += "document.getElementById('hddn_template3').onchange = custOnTmplFldChg\n";
 		script += '</script>\n';
 		inlineHtmlFld.setDefaultValue(script);
 	}
@@ -158,6 +171,7 @@ function getBCCEmpList(customerRec, exclEmpList, bccListFlds)
 	var bccEmpListResults = null;
 	if(bccEmpList.length > 0)
 	{
+		nlapiLogExecution('DEBUG', 'bccEmpList check', bccEmpList);
 		var filters = new Array();
 		filters.push(new nlobjSearchFilter('isinactive', null, 'is', 'F'));
 		filters.push(new nlobjSearchFilter('internalid', null, 'anyof', bccEmpList));
@@ -168,25 +182,34 @@ function getBCCEmpList(customerRec, exclEmpList, bccListFlds)
 	return bccEmpListResults;
 }
 
-function loadDefaultVals(custId, tmplId, tranId, isBeforeLoad)
+function loadDefaultVals(custId, tmplId, tranId, isBeforeLoad, billingContactEmail, secondBillingContactEmail)
 {
 	var customerRec = null;
 	try{
 		customerRec = nlapiLoadRecord('customer', custId);
 	}catch(er){
+	    nlapiLogExecution('ERROR', 'Error loading customer', er);
 		return;
 	}
+	
 	var recipientEmail = nlapiGetFieldValue('recipientemail');
 	nlapiLogExecution('Debug', 'Checking', 'Recipient Email - ' + recipientEmail);
 	nlapiLogExecution('Debug', 'Checking', 'tranId - ' + tranId);
 	var toEmail = recipientEmail == null ? '' : recipientEmail;
 	
-	toEmail = getToEmail(custId, toEmail);
+	// if billing contact email field is filled use the value as recipient
+	// CSOD requirement change 4/17/2018
+	if(billingContactEmail) {
+		toEmail = billingContactEmail;
+	} else {
+		toEmail = getToEmail(custId, toEmail);
+	}
 	
-	nlapiLogExecution('Debug', 'Chan-Check', toEmail);
+	
+	nlapiLogExecution('Debug', 'within loadDefaultVals', 'toEmail value check' + toEmail);
 	
 	var ccEmailsList = getCCEmailsList(custId);
-	nlapiLogExecution('Debug', 'Chan-Check', ccEmailsList);
+	nlapiLogExecution('Debug', 'within loadDefaultVals', 'eeEmailList value check' + ccEmailsList);
 	
 	var cols = new Array();
 	cols.push(new nlobjSearchColumn('custrecord_email_tmpl_assoc_pdf_file'));
@@ -239,7 +262,6 @@ function loadDefaultVals(custId, tmplId, tranId, isBeforeLoad)
 			nlapiSetFieldValue("letter", pdfTmplId);
 			nlapiSetFieldValue("includetransaction", "T");
 			nlapiSetFieldValue("emailpreference", "PDF");
-			
 			nlapiLogExecution('Debug', 'Checking', 'CC Emails List - ' + ccEmailsList.length);
 			for(var ccListIdx=0; ccListIdx < ccEmailsList.length; ccListIdx++)
 			{
@@ -413,7 +435,6 @@ function afterSubmit(type)
 		if(custRecId != null && custRecId != '')
 		{
 			var msgRec = nlapiGetNewRecord();
-			var custId = msgRec.getFieldValue('recipient');
 			
 			var invId = msgRec.getFieldValue('transaction'), invRec = null;
 			try{
@@ -423,17 +444,22 @@ function afterSubmit(type)
 			}
 			if(invRec == null)
 				return;
-			
+
+			var custId = invRec.getFieldValue('entity');
+
 			nlapiLogExecution('Debug', 'Checking', 'Cust Id - ' + custId + ', InvId - ' + invId);
 			var custRec = nlapiLoadRecord('customrecord_email_pdf', custRecId);
 			var collecStatus = convNull(custRec.getFieldValue('custrecord_collections_status_field'));
 			var collecStatusTxt = convNull(custRec.getFieldText('custrecord_collections_status_field'));
 			var customerDtFldsUpd = convNull(custRec.getFieldValue('custrecord_customer_date_field'));
 			var invDtFldsUpd = convNull(custRec.getFieldValue('custrecord_invoice_date_field'));
-			var csod_coll_status = convNull(custRec.getFieldValue('custrecord_csod_coll_notice_list'))
+			var csod_coll_status = convNull(custRec.getFieldValue('custrecord_csod_coll_notice_list'));
 			
-			if(customerDtFldsUpd != '')
+
+			
+			if(customerDtFldsUpd != '' && custId)
 			{
+				
 				var customerRec = nlapiLoadRecord('customer', custId);
 				var tmpFlds = customerDtFldsUpd.split('|');
 				for(var idx=0; idx < tmpFlds.length; idx++)
@@ -444,27 +470,8 @@ function afterSubmit(type)
 				}
 				nlapiSubmitRecord(customerRec, false, true);
 			}
-			
-			if(invDtFldsUpd != '' || csod_coll_status != '')
-			{
-				var invRec = nlapiLoadRecord('invoice', invId);
-				if(invDtFldsUpd){
-				    var tmpFlds = invDtFldsUpd.split('|');
-                    for(var idx=0; idx < tmpFlds.length; idx++)
-                    {
-                        var fldId = convNull(tmpFlds[idx]).trim();
-                        if(fldId != '')
-                            invRec.setFieldValue(fldId, nlapiDateToString(new Date()));
 
-                    }
-				}
-                if(csod_coll_status) {
-				    invRec.setFieldValue('custbody_last_notice_sent', csod_coll_status);
-                }
-				nlapiSubmitRecord(invRec, false, true);
-			}
-			
-			if(collecStatus != '')
+			if(collecStatus)
 			{
 				nlapiLogExecution('Debug', 'Checking', 'Creating Task');
 				var taskRec = nlapiCreateRecord('task', {'recordmode' : 'dynamic'});
@@ -482,8 +489,13 @@ function afterSubmit(type)
 				invIds.push(invId);
 				taskRec.setFieldValues('custevent_related_invoices', invIds);
 				nlapiLogExecution('Debug', 'Checking', 'Submitting Task Rec');
-				var taskId = nlapiSubmitRecord(taskRec, true, true);
-				
+
+				try{
+                    var taskId = nlapiSubmitRecord(taskRec, true, true);
+				} catch(e) {
+					nlapiLogExecution('ERROR', 'ERROR WHILE SUBMITTING NEW TASK', e);
+				}
+
 				//Now call suitelet to submit the taskRec so that server side scripts on task record will get executed
 				var suiteletUrl = nlapiResolveURL('SUITELET', 'customscript_trig_task_ue_scripts', 'customdeploy_trig_task_ue_scripts', true);
 				nlapiLogExecution('Debug', 'Checking', 'URL - ' + suiteletUrl);
@@ -491,6 +503,25 @@ function afterSubmit(type)
 				nlapiRequestURL(suiteletUrl);
 				nlapiLogExecution('Debug', 'Checking', 'Done requesting URL');			
 			}
+
+            if(invDtFldsUpd || csod_coll_status)
+            {
+                nlapiLogExecution('DEBUG', 'Checking csod_coll_status: ' + csod_coll_status);
+                if(invDtFldsUpd){
+                    var tmpFlds = invDtFldsUpd.split('|');
+                    for(var idx=0; idx < tmpFlds.length; idx++)
+                    {
+                        var fldId = convNull(tmpFlds[idx]).trim();
+                        if(fldId != '')
+                            invRec.setFieldValue(fldId, nlapiDateToString(new Date()));
+
+                    }
+                }
+                if(csod_coll_status) {
+                    invRec.setFieldValue('custbody_last_notice_sent', csod_coll_status);
+                }
+                nlapiSubmitRecord(invRec, false, false);
+            }
 		}
 	}
 }

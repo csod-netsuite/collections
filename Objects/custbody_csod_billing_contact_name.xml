@@ -1,6 +1,6 @@
-<transactionbodycustomfield scriptid="custbody_manual_total_cmrr_value">
+<transactionbodycustomfield scriptid="custbody_csod_billing_contact_name">
   <accesslevel>2</accesslevel>
-  <applyformatting>T</applyformatting>
+  <applyformatting>F</applyformatting>
   <bodycustomerpayment>F</bodycustomerpayment>
   <bodydeposit>F</bodydeposit>
   <bodyexpensereport>F</bodyexpensereport>
@@ -25,14 +25,14 @@
   <displaywidth></displaywidth>
   <dynamicdefault></dynamicdefault>
   <encryptatrest>F</encryptatrest>
-  <fieldtype>FLOAT</fieldtype>
+  <fieldtype>TEXT</fieldtype>
   <fldsizelabel></fldsizelabel>
   <globalsearch>F</globalsearch>
-  <help>For special case Sales Orders, please enter the appropriate CMRR Value</help>
+  <help></help>
   <isformula>F</isformula>
   <ismandatory>F</ismandatory>
   <isparent>F</isparent>
-  <label>Total CMRR Value Input</label>
+  <label>Billing Contact Name</label>
   <linktext></linktext>
   <maxlength></maxlength>
   <maxvalue></maxvalue>
@@ -49,5 +49,5 @@
   <sourcefrom></sourcefrom>
   <sourcelist></sourcelist>
   <storevalue>T</storevalue>
-  <subtab>[custtab_83_642845_129]</subtab>
+  <subtab></subtab>
 </transactionbodycustomfield>

@@ -2,9 +2,9 @@
   <aftersubmitfunction>afterSubmit</aftersubmitfunction>
   <beforeloadfunction>beforeLoad</beforeloadfunction>
   <beforesubmitfunction>beforeSubmit</beforesubmitfunction>
-  <description></description>
+  <description>User Event Script for Collections Process</description>
   <isinactive>F</isinactive>
-  <name>CSOD UE Invoice</name>
+  <name>CSOD Collection UE Invoice</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>

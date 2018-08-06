@@ -2,10 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7242ddff-0162-4a08-aea3-443b3b6ac517" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/error.log" afterPath="$PROJECT_DIR$/error.log" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/.sdf" afterPath="$PROJECT_DIR$/.sdf" />
+      <change beforePath="$PROJECT_DIR$/.settings/.jsdtscope" afterPath="$PROJECT_DIR$/.settings/.jsdtscope" />
+      <change beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" />
+      <change beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Invoice.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Invoice.js" />
+      <change beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js" />
+      <change beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js" />
+      <change beforePath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_invoice_nonGLfieldsUpd.js" afterPath="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_invoice_nonGLfieldsUpd.js" />
+      <change beforePath="$PROJECT_DIR$/Objects/custbody_manual_total_cmrr_value.xml" afterPath="$PROJECT_DIR$/Objects/custbody_manual_total_cmrr_value.xml" />
+      <change beforePath="$PROJECT_DIR$/Objects/custentity_inv_que_exempt.xml" afterPath="$PROJECT_DIR$/Objects/custentity_inv_que_exempt.xml" />
+      <change beforePath="$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml" />
+      <change beforePath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" />
+      <change beforePath="$PROJECT_DIR$/Objects/customscript_csod_sl_multi_add_to_queue.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_sl_multi_add_to_queue.xml" />
+      <change beforePath="$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml" afterPath="$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml" />
+      <change beforePath="$PROJECT_DIR$/error.log" afterPath="$PROJECT_DIR$/error.log" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,29 +42,32 @@
       <file leaf-file-name="CSOD_MR_Send_Collection_Letter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1506">
-              <caret line="175" column="0" lean-forward="true" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+            <state relative-caret-position="7581">
+              <caret line="361" column="42" lean-forward="false" selection-start-line="361" selection-start-column="42" selection-end-line="361" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CSOD_UE_Invoice_Utils.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_UE_Invoice_Utils.js">
+      <file leaf-file-name="customscript_csod_ue_collections.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1319">
-              <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+            <state relative-caret-position="336">
+              <caret line="16" column="38" lean-forward="false" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cso_SS_Invoice.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Invoice.js">
+      <file leaf-file-name="CSOD_SS_Send_Instruction.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SS_Send_Instruction.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1380">
-              <caret line="66" column="38" lean-forward="false" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
-              <folding />
+            <state relative-caret-position="735">
+              <caret line="35" column="51" lean-forward="false" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
+              <folding>
+                <marker date="1506533993000" expanded="true" signature="2389:2396" ph="’" />
+                <marker date="1506533993000" expanded="true" signature="2556:2562" ph=" " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,38 +75,8 @@
       <file leaf-file-name="cso_SS_InvoicesEmailProcess.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13386">
-              <caret line="582" column="72" lean-forward="false" selection-start-line="582" selection-start-column="72" selection-end-line="582" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customscript_csod_mr_send_coll_letters.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2185">
-              <caret line="95" column="44" lean-forward="true" selection-start-line="95" selection-start-column="44" selection-end-line="95" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CSOD_MR_Invoice_Collection.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="80" column="64" lean-forward="true" selection-start-line="80" selection-start-column="64" selection-end-line="80" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="1113">
+              <caret line="53" column="119" lean-forward="false" selection-start-line="53" selection-start-column="119" selection-end-line="53" selection-end-column="119" />
               <folding />
             </state>
           </provider>
@@ -101,18 +85,48 @@
       <file leaf-file-name=".sdf" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.sdf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="3" column="14" lean-forward="false" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+            <state relative-caret-position="84">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customscript_csod_ss_coll_send_inst.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ss_coll_send_inst.xml">
+      <file leaf-file-name="CSOD_SL_Mass_Add_To_Queue.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SL_Mass_Add_To_Queue.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="236" column="48" lean-forward="false" selection-start-line="236" selection-start-column="48" selection-end-line="236" selection-end-column="48" />
+            <state relative-caret-position="5607">
+              <caret line="267" column="68" lean-forward="false" selection-start-line="267" selection-start-column="68" selection-end-line="267" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CSOD_MR_Invoice_Collection.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1260">
+              <caret line="60" column="25" lean-forward="false" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cso_SS_Message.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-484">
+              <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customscript_csod_mr_send_coll_letters.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1995">
+              <caret line="95" column="44" lean-forward="false" selection-start-line="95" selection-start-column="44" selection-end-line="95" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -121,8 +135,8 @@
       <file leaf-file-name="customscript_csod_mr_collection_state.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="989">
-              <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+            <state relative-caret-position="903">
+              <caret line="43" column="32" lean-forward="false" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -159,6 +173,12 @@
       <find>collecStatus</find>
       <find>custbody_no_overdue_notices</find>
       <find>button</find>
+      <find>custbody_last_notice_sent</find>
+      <find>chan</find>
+      <find>custrecord_csod_coll_notice_list</find>
+      <find>csod_coll_status</find>
+      <find>Associate File Error</find>
+      <find>custscript_customrecord_email_pdf</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,14 +200,15 @@
         <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_invoice_nonGLfieldsUpd.js" />
         <option value="$PROJECT_DIR$/Objects/customscript_csod_ss_coll_send_inst.xml" />
         <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SS_Send_Instruction.js" />
-        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js" />
         <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_MR_Collection_Libs.js" />
         <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_UE_Invoice_Utils.js" />
-        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js" />
-        <option value="$PROJECT_DIR$/.sdf" />
         <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js" />
-        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" />
         <option value="$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml" />
+        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js" />
+        <option value="$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml" />
+        <option value="$PROJECT_DIR$/.sdf" />
+        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js" />
+        <option value="$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js" />
       </list>
     </option>
   </component>
@@ -204,10 +225,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="827" />
+    <option name="height" value="823" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -227,7 +248,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,32 +279,13 @@
               <item name="Collections" type="462c0819:PsiDirectoryNode" />
               <item name="FileCabinet" type="462c0819:PsiDirectoryNode" />
               <item name="SuiteScripts" type="462c0819:PsiDirectoryNode" />
-              <item name="CSOD Collections" type="462c0819:PsiDirectoryNode" />
-              <item name="Libraries" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Collections" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Collections" type="462c0819:PsiDirectoryNode" />
-              <item name="FileCabinet" type="462c0819:PsiDirectoryNode" />
-              <item name="SuiteScripts" type="462c0819:PsiDirectoryNode" />
               <item name="DSG" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Collections" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Collections" type="462c0819:PsiDirectoryNode" />
-              <item name="Objects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Collections" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Collections" type="462c0819:PsiDirectoryNode" />
-              <item name="Objects" type="462c0819:PsiDirectoryNode" />
-              <item name="CustomRecord" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -312,6 +314,9 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -375,12 +380,19 @@
       <workItem from="1507742440953" duration="5195000" />
       <workItem from="1509046400119" duration="716000" />
       <workItem from="1510783994822" duration="179000" />
-      <workItem from="1510859143378" duration="1237000" />
+      <workItem from="1510859143378" duration="6241000" />
+      <workItem from="1511829153025" duration="400000" />
+      <workItem from="1515699273009" duration="919000" />
+      <workItem from="1516383393274" duration="2091000" />
+      <workItem from="1523903169149" duration="566000" />
+      <workItem from="1523904450219" duration="4651000" />
+      <workItem from="1525193697229" duration="277000" />
+      <workItem from="1529600399871" duration="1012000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167335000" />
+    <option name="totallyTimeSpent" value="182255000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -392,15 +404,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="827" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="823" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.273432" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2905028" sideWeight="0.45454547" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2963483" sideWeight="0.4721635" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2905028" sideWeight="0.54545456" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2963483" sideWeight="0.5278365" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -613,13 +627,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="33" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Objects/custbody_inv_temp_language.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1012">
@@ -655,20 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11">
-          <caret line="461" column="13" lean-forward="true" selection-start-line="461" selection-start-column="13" selection-end-line="461" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SS_Send_Instruction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="805">
-          <caret line="35" column="51" lean-forward="false" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_CL_Invoice_Libs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -687,22 +680,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SL_Mass_Add_To_Queue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6141">
-          <caret line="267" column="68" lean-forward="false" selection-start-line="267" selection-start-column="68" selection-end-line="267" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_UE_Invoice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -710,23 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1380">
           <caret line="66" column="38" lean-forward="false" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13386">
-          <caret line="582" column="72" lean-forward="false" selection-start-line="582" selection-start-column="72" selection-end-line="582" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="989">
-          <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -734,54 +694,110 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_UE_Invoice_Utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1995">
+          <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ss_coll_send_inst.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4956">
+          <caret line="236" column="48" lean-forward="false" selection-start-line="236" selection-start-column="48" selection-end-line="236" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1995">
+          <caret line="95" column="44" lean-forward="false" selection-start-line="95" selection-start-column="44" selection-end-line="95" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_collection_state.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="903">
+          <caret line="43" column="32" lean-forward="false" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ue_collections.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" column="38" lean-forward="false" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_UE_Invoice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SS_Send_Instruction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="35" column="51" lean-forward="false" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
+          <folding>
+            <marker date="1506533993000" expanded="true" signature="2389:2396" ph="’" />
+            <marker date="1506533993000" expanded="true" signature="2556:2562" ph=" " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_SL_Mass_Add_To_Queue.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5607">
+          <caret line="267" column="68" lean-forward="false" selection-start-line="267" selection-start-column="68" selection-end-line="267" selection-end-column="68" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Invoice_Collection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="80" column="64" lean-forward="true" selection-start-line="80" selection-start-column="64" selection-end-line="80" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/Libraries/CSOD_UE_Invoice_Utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1319">
-          <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+        <state relative-caret-position="1260">
+          <caret line="60" column="25" lean-forward="false" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/CSOD Collections/CSOD_MR_Send_Collection_Letter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1506">
-          <caret line="175" column="0" lean-forward="true" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+        <state relative-caret-position="7581">
+          <caret line="361" column="42" lean-forward="false" selection-start-line="361" selection-start-column="42" selection-end-line="361" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.sdf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="14" lean-forward="false" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        <state relative-caret-position="84">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_ss_coll_send_inst.xml">
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_InvoicesEmailProcess.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="236" column="48" lean-forward="false" selection-start-line="236" selection-start-column="48" selection-end-line="236" selection-end-column="48" />
+        <state relative-caret-position="1113">
+          <caret line="53" column="119" lean-forward="false" selection-start-line="53" selection-start-column="119" selection-end-line="53" selection-end-column="119" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/customscript_csod_mr_send_coll_letters.xml">
+    <entry file="file://$PROJECT_DIR$/FileCabinet/SuiteScripts/DSG/cso_SS_Message.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2185">
-          <caret line="95" column="44" lean-forward="true" selection-start-line="95" selection-start-column="44" selection-end-line="95" selection-end-column="44" />
+        <state relative-caret-position="-484">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
           <folding />
         </state>
       </provider>
