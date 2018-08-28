@@ -424,12 +424,15 @@ function emailInvoice(invId)
 								
 								// BC Swiched From Finance Responsible to custentity9
 								columns.push(new nlobjSearchColumn('custentity9'));
+                              //BC NEW
+                                columns.push(new nlobjSearchColumn('email','custentity_finance_responsible'));
 								columns.push(new nlobjSearchColumn('email', 'custentityaccount_managers'));
 								
 								var results = nlapiSearchRecord('customer', null, filters, columns);
 								if(results != null && results != '')
 								{
 									var acctMgrEmail = results[0].getValue('email', 'custentityaccount_managers');
+                                  	var billingsRepEmail = results[0].getValue('email','custentity_finance_responsible');
 									if(acctMgrEmail != null && acctMgrEmail != '')
 									{
 										if(cc == null)
@@ -437,17 +440,24 @@ function emailInvoice(invId)
 										else
 											cc[cc.length] = acctMgrEmail;
 									}
+                                  	if(billingsRepEmail != null && billingsRepEmail != '')
+                                  	{
+										if(cc == null)
+											cc = [billingsRepEmail];
+										else
+											cc[cc.length] = billingsRepEmail;
+									}
 									
 									// BC Swiched From Finance Responsible to custentity9
 									var tempEmailFrom = results[0].getValue('custentity9');
 									if(tempEmailFrom != null && tempEmailFrom != '') {
 										emailFrom = tempEmailFrom;
 										emailFromEmailAddr = nlapiLookupField('employee', tempEmailFrom, 'email');
-										if(cc){
+										/*if(cc){
 											cc.push(emailFromEmailAddr);
 										} else {
 											cc = [emailFromEmailAddr];
-										}
+										}*/
 											
 									}
 									

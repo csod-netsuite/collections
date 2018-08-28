@@ -89,15 +89,46 @@ function(moment, format, record) {
             });
         }
 
-        var invoiceSentDate = oldRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || newRec.getValue({ fieldId: 'custbody_record_emailed_date' });
+        var invoiceSentDate = newRec.getValue({ fieldId: 'custbody_record_emailed_date' }) || oldRec.getValue({ fieldId: 'custbody_record_emailed_date' });
 		var origDueDate = oldRec.getValue({ fieldId: 'duedate' }) || newRec.getValue({ fieldId: 'duedate' });
 		var oldAdjDueDate = oldRec.getValue({ fieldId: 'custbody_adjusted_due_date' });
+		
+		log.debug({
+            title: 'Invoice Sent Date Variable Old Rec',
+            details: 'Invoice Sent Date Variable Old Rec : ' + oldRec.getValue({ fieldId: 'custbody_record_emailed_date' })
+        });
+		
+		log.debug({
+            title: 'Invoice Sent Date Variable New Rec',
+            details: 'Invoice Sent Date Variable New Rec : ' + newRec.getValue({ fieldId: 'custbody_record_emailed_date' })
+        });
+		
+		log.debug({
+            title: 'Invoice Sent Date Variable Leveraged',
+            details: 'Invoice Sent Date Variable Leveraged : ' + invoiceSentDate
+        });
+		
+		log.debug({
+            title: 'Original Due Date Variable',
+            details: 'Original Due Date : ' + origDueDate
+        });
+		
+		log.debug({
+            title: 'Old Adjusted Due Date Variable',
+            details: 'Old Adjusted Due Date : ' + oldAdjDueDate
+        });
 
 
         // Only populate if Adjusted New Date is not populated
-		if((invoiceSentDate && origDueDate) && !oldAdjDueDate) {
+      	// BC New Adjusting this to recalculate Adjusted Due Date - removing "&& !oldAdjDueDate" condition - if((invoiceSentDate && origDueDate) && !oldAdjDueDate)
+		if(invoiceSentDate && origDueDate) {
 
 			var dateDiff = new CalcDate(invoiceSentDate).getMomentDate().getDiff(origDueDate);
+			
+			log.debug({
+	            title: 'Date Diff Variable',
+	            details: 'dateDiff : ' + dateDiff
+	        });
 			
 			var adjustedDueDate;
 			
@@ -108,8 +139,8 @@ function(moment, format, record) {
 			}
 			
 			log.debug({
-				title: 'Date fields validation',
-				details: 'Due Date : ' + origDueDate + ', ' + 'Invoice Sent Date: ' + invoiceSentDate + ', Date Diff: ' + dateDiff
+				title: 'Adjusted Due Date Variable',
+				details: 'Adjusted Due Date Variable: ' + adjustedDueDate
 			});
 			
 			newRec.setValue({

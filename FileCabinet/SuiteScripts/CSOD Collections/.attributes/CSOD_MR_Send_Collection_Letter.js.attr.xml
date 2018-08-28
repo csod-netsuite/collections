@@ -1,6 +1,8 @@
 <file>
-    <bundleable>F</bundleable>
-    <description></description>
-    <isinactive>F</isinactive>
-    <hideinbundle>F</hideinbundle>
+  <availablewithoutlogin>F</availablewithoutlogin>
+  <bundleable>F</bundleable>
+  <description></description>
+  <generateurltimestamp>F</generateurltimestamp>
+  <hideinbundle>F</hideinbundle>
+  <isinactive>F</isinactive>
 </file>

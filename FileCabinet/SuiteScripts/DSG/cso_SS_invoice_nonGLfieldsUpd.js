@@ -107,13 +107,30 @@ function service(request, response)
 		if(nlapiGetRole() != '3' && nlapiGetRole() != '1043' && nlapiGetRole() != '1027' && nlapiGetRole() != '1065' && nlapiGetRole() != '1092')
 			expPTP.setDisplayType('hidden');
 
-//***DSG Case 44985 start
-		var warnNoticeFld = form.addField('custpage_warning_notice_date', 'date', 'Warning Notice');
-		warnNoticeFld.setDefaultValue(rec.getFieldValue('custbody_warning_notice_date'));		
+//***DSG Case 44985 
+      	//BC New Added Additional Collections Date Fields
+		var firstNoticeFld = form.addField('custpage_first_notice_date', 'date', '1st Notice Sent Date');
+		firstNoticeFld.setDefaultValue(rec.getFieldValue('custbody_first_notice_date'));
+      	
+      	var secondNoticeFld = form.addField('custpage_second_notice_date', 'date', '2nd Notice Sent Date');
+		secondNoticeFld.setDefaultValue(rec.getFieldValue('custbody_second_notice_date'));	
 
-		var disrupNoticeFld = form.addField('custpage_disruption_notice_date', 'date', 'Disruption Notice');
-		disrupNoticeFld.setDefaultValue(rec.getFieldValue('custbody_disruption_notice_date'));		
+		var disrupNoticeFld = form.addField('custpage_disruption_notice_date', 'date', 'Disruption Notice Date');
+		disrupNoticeFld.setDefaultValue(rec.getFieldValue('custbody_disruption_notice_date'));
+      
+      	var preAdminNoticeFld = form.addField('custpage_pre_admin_lockout', 'date', 'Pre Admin Lockout Date');
+		preAdminNoticeFld.setDefaultValue(rec.getFieldValue('custbody_pre_admin_lockout'));	
+      	
+      	var adminNoticeFld = form.addField('custpage_admin_lockout', 'date', 'Admin Lockout Date');
+		adminNoticeFld.setDefaultValue(rec.getFieldValue('custbody_admin_lockout_date'));
+      
+      	var portalNoticeFld = form.addField('custpage_portal_lockout', 'date', 'Portal Lockout Date');
+		portalNoticeFld.setDefaultValue(rec.getFieldValue('custbody_portal_lockout_date'));
+      
+      
 //***DSG Case 44985 end		
+      
+      
 		
 		var legalCtrFld = form.addField('custpage_legal_ctr_id', 'text', 'Legal Contract Id');
 		legalCtrFld.setDefaultValue(rec.getFieldValue('custbodylegal_contract_id'));		
@@ -152,6 +169,9 @@ function service(request, response)
 		
 		var contactPhoneFld = form.addField('custpage_contact_phone', 'phone', 'Billing Contact Phone');
 		contactPhoneFld.setDefaultValue(rec.getFieldValue('custbody_csod_billing_contact_phone'));
+		
+		var secondaryBillContactEmail = form.addField('custpage_second_bill_contact', 'email', 'Secondary Billing Contact Email');
+		secondaryBillContactEmail.setDefaultValue(rec.getFieldValue('custbody_csod_second_billing_email'));
 		
 		//Adding Addresses list from Customer
 		var addrTab = form.addTab('custpage_address_tab', 'Address');
@@ -292,8 +312,13 @@ function service(request, response)
 //***DSG Case 44985 start
 		var conDueDateCheck = request.getParameter('custpage_contingent_due_check');
 		var conDueDate = request.getParameter('custpage_contingent_due_date_text');
-		var warnNotc = request.getParameter('custpage_warning_notice_date');
+      	//BC New Added Additional Collections Date Fields
+		var firstNotc = request.getParameter('custpage_first_notice_date');
+      	var secondNotc = request.getParameter('custpage_second_notice_date');
 		var dispNotc = request.getParameter('custpage_disruption_notice_date');
+        var preAdminNotc = request.getParameter('custpage_pre_admin_lockout');
+        var adminNotc = request.getParameter('custpage_admin_lockout');
+        var portalNotc = request.getParameter('custpage_portal_lockout');
 //***DSG Case 44985 end	
 		var expPTPVal = request.getParameter('custpage_expected_ptp');
 		var legalCtrId = request.getParameter('custpage_legal_ctr_id');
@@ -316,7 +341,7 @@ function service(request, response)
 		var billContactName = request.getParameter('custpage_contact_name');
 		var billContactEmail = request.getParameter('custpage_contact_email');
 		var billContactPhone = request.getParameter('custpage_contact_phone');
-		
+		var secondBillContact = request.getParameter('custpage_second_bill_contact');
 		
 		
 //***CSOD CMRR
@@ -346,8 +371,13 @@ function service(request, response)
 //***DSG Case 44985 start
 		rec.setFieldValue('custbody_contingent_due_check', conDueDateCheck == null ? '' : conDueDateCheck);
 		rec.setFieldValue('custbody_contingent_due_date_text', conDueDate == null ? '' : conDueDate);
-		rec.setFieldValue('custbody_warning_notice_date', warnNotc == null ? '' : warnNotc);
+      	//BC New Added Additional Collections Date Fields
+		rec.setFieldValue('custbody_first_notice_date', firstNotc == null ? '' : firstNotc);
+      	rec.setFieldValue('custbody_second_notice_date', secondNotc == null ? '' : secondNotc);
 		rec.setFieldValue('custbody_disruption_notice_date', dispNotc == null ? '' : dispNotc);
+      	rec.setFieldValue('custbody_pre_admin_lockout', preAdminNotc == null ? '' : preAdminNotc);
+      	rec.setFieldValue('custbody_admin_lockout_date', adminNotc == null ? '' : adminNotc);
+      	rec.setFieldValue('custbody_portal_lockout_date', portalNotc == null ? '' : portalNotc);
 //***DSG Case 44985 end
 		rec.setFieldValue('custbodylegal_contract_id', legalCtrId == null ? '' : legalCtrId);
 		
@@ -389,6 +419,7 @@ function service(request, response)
 		rec.setFieldValue('custbody_csod_billing_contact_name', billContactName == null ? '' : billContactName);
 		rec.setFieldValue('custbody_csod_billing_contact_email', billContactEmail == null ? '' : billContactEmail);
 		rec.setFieldValue('custbody_csod_billing_contact_phone', billContactPhone == null ? '' : billContactPhone);
+		rec.setFieldValue('custbody_csod_second_billing_email', secondBillContact == null ? '' : secondBillContact);
 		
 		var count = request.getLineItemCount('custlist');
 		for(var line=1; line <= count; line++)
